@@ -11,8 +11,6 @@
  */
 #define ever (;;)
 
-int dutycycle = 1550;
-
 void stop_pwm() {
 }
 
