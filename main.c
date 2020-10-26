@@ -4,7 +4,7 @@
  */
 #include <msp430.h> 
 #include "over_current.h"
-
+#include "pwm.h"
 
 /**
  * main.c
@@ -17,6 +17,9 @@ void stop_pwm() {
 int main(void)
 {
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
+
+	init_PWM();
+	set_PWM_out(1500);
 
 	setup_ADC();
 
