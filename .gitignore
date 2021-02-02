@@ -1,4 +1,5 @@
 lnk_msp430g2553.cmd
+lnk_msp430fr2355.cmd
 targetConfigs/
 Debug/
 .launches/
