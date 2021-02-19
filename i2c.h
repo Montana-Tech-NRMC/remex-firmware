@@ -8,8 +8,8 @@
 #ifndef I2C_H_
 #define I2C_H_
 
-#define SDA_PIN BIT2 // Pin 1.7
-#define SCL_PIN BIT3 // Pin 1.6
+#define SDA_PIN BIT2 // Pin 1.2
+#define SCL_PIN BIT3 // Pin 1.3
 
 /************* Register addresses **********************/
 
