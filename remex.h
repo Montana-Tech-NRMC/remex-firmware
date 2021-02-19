@@ -49,7 +49,7 @@ void receive_cb(const unsigned char in);
  *
  * @param[out] the pointer to the transmit buffer to send a byte.
  */
-void transmit_cb(unsigned volatile char *out);
+void transmit_cb(unsigned volatile int *out);
 
 /**
  * start_condition_cb is a callback function for when a i2c start condition is detected from the master.

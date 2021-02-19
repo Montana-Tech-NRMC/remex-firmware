@@ -21,6 +21,9 @@ void init(void)
     __bis_SR_register(GIE); // Enable global interrupts
     clear_registers();
     i2c_slave_init(start_condition_cb, stop_condition_cb, receive_cb, transmit_cb, SLAVE_ADDR);
+
+    // Disable GPIO High impedance.
+    PM5CTL0 &=~ LOCKLPM5;
 }
 
 // code within loop repeats continually.
@@ -62,7 +65,7 @@ void receive_cb(const unsigned char in)
 }
 
 // This function is called in an interrupt. Do not stall
-void transmit_cb(unsigned volatile char *out)
+void transmit_cb(unsigned volatile int *out)
 {
     switch(state) {
     case start:
