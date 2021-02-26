@@ -25,7 +25,9 @@ void init(void)
     clear_registers();
     i2c_slave_init(start_condition_cb, stop_condition_cb, receive_cb, transmit_cb, SLAVE_ADDR);
 
-    PM5CTL0 &= ~LOCKLPM5;
+
+    // Disable GPIO High impedance.
+    PM5CTL0 &=~ LOCKLPM5;
 }
 
 // code within loop repeats continually.

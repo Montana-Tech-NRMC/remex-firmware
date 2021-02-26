@@ -29,7 +29,7 @@ void i2c_slave_init(
         void (*stt_cb)(void),
         void (*stp_cb)(void),
         void (*rx_cb)(unsigned char in),
-        void (*tx_cb)(unsigned volatile int *send),
+        void (*tx_cb)(unsigned volatile int *out),
         unsigned char slave_addr);
 
 #endif /* I2C_H_ */

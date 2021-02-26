@@ -8,7 +8,6 @@
 #include <msp430.h>
 #include "i2c.h"
 
-
 void i2c_slave_init(
         void (*stt_cb)(void),
         void (*stp_cb)(void),
