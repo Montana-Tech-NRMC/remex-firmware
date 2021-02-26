@@ -12,18 +12,49 @@
 #define UNKNOWN_REG 0xFF
 #define UNKNOWN_PAR 0xFF
 
+/************* Register addresses **********************/
+
+// Read / Write Registers
+#define command_reg        0xCC
+#define mode_reg           0x00
+#define max_current_L      0x01
+#define max_current_H      0x02
+#define current_duration_L 0x03
+#define current_duration_H 0x04
+#define des_speed_a_L      0x05
+#define des_speed_a_H      0x06
+#define des_speed_b_L      0x07
+#define des_speed_b_H      0x08
+#define des_pos_a_L        0x09
+#define des_pos_a_H        0x0A
+#define des_pos_b_L        0x0B
+#define des_pos_b_H        0x0C
+
+#define READONLY           0x20
+// Read only Registers
+#define position_a_L       0x20
+#define position_a_H       0x21
+#define position_b_L       0x22
+#define position_b_H       0x23
+#define ADC_A_L            0x24
+#define ADC_A_H            0x25
+#define ADC_B_L            0x26
+#define ADC_B_H            0x27
+#define ADC_C_L            0x28
+#define ADC_C_H            0x29
+#define switch_states      0x2A
+#define remex_state        0x2F
+
+#define REGMAP_SIZE 0x2F
+/****************************************************/
+
 // state machine states
 enum i2c_states {
-   start,
-   reg_set,
-   stop,
-   cmd_byte,
+    start,
+    reg_set,
+    stop,
+    cmd_byte,
 };
-
-/**
- * stop_pwm is a callback function that is called when an motor over current condition is detected.
- */
-void stop_pwm(void);
 
 /**
  * clear_registers is a helper function that sets all the registers in the register map to zero.
@@ -49,7 +80,7 @@ void receive_cb(const unsigned char in);
  *
  * @param[out] the pointer to the transmit buffer to send a byte.
  */
-void transmit_cb(unsigned volatile char *out);
+void transmit_cb(unsigned volatile int *out);
 
 /**
  * start_condition_cb is a callback function for when a i2c start condition is detected from the master.

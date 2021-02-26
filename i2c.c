@@ -8,19 +8,12 @@
 #include <msp430.h>
 #include "i2c.h"
 
-void (*receive_func)(const unsigned char in);
-void (*transmit_func)(unsigned volatile char *out);
-void (*start_func)(void);
-void (*stop_func)(void);
-
-// Must have definition. regmap is set in the init method
-extern unsigned char regmap[REGMAP_SIZE] = { 0x00 };
 
 void i2c_slave_init(
         void (*stt_cb)(void),
         void (*stp_cb)(void),
         void (*rx_cb)(unsigned char in),
-        void (*tx_cb)(unsigned volatile char *out),
+        void (*tx_cb)(unsigned volatile int *out),
         unsigned char slave_addr)
 {
     P1SEL0 |= SDA_PIN + SCL_PIN;             // Set i2c on pins 1.6 and 1.7 for USCIB0

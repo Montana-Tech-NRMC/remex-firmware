@@ -10,6 +10,9 @@
  * remex.c
  */
 
+// Must have definition. regmap is set in the init method
+unsigned char regmap[REGMAP_SIZE] = { 0x00 };
+
 //////////// Global Vars //////////////////
 unsigned char reg = UNKNOWN_REG;
 enum i2c_states state = start;
@@ -21,6 +24,8 @@ void init(void)
     __bis_SR_register(GIE); // Enable global interrupts
     clear_registers();
     i2c_slave_init(start_condition_cb, stop_condition_cb, receive_cb, transmit_cb, SLAVE_ADDR);
+
+    PM5CTL0 &= ~LOCKLPM5;
 }
 
 // code within loop repeats continually.
@@ -62,7 +67,7 @@ void receive_cb(const unsigned char in)
 }
 
 // This function is called in an interrupt. Do not stall
-void transmit_cb(unsigned volatile char *out)
+void transmit_cb(unsigned volatile int *out)
 {
     switch(state) {
     case start:
@@ -93,12 +98,18 @@ void stop_condition_cb(void)
 }
 
 // This function is called in an interrupt. Do not stall.
-void stop_pwm(void)
-{
-}
-
-// This function is called in an interrupt. Do not stall.
 void process_cmd(unsigned char cmd)
 {
-    // TODO: define what happens with each cmd
+    //find the desired speed and clicks in the register map.
+    /*
+    int speedA = (int) (regmap[des_speed_a_L] + (regmap[des_speed_a_H] << 8));
+    int speedB = (int) (regmap[des_speed_b_L] + (regmap[des_speed_b_H] << 8));
+    int destA = (int) (regmap[des_pos_a_L] + (regmap[des_pos_a_H] << 8));
+    int destB = (int) (regmap[des_pos_b_L] + (regmap[des_pos_b_H] << 8));
+    */
+    // start pid control to move motors to desired positions.
+    //pid_control(speedA, speedB, destA, destB);
+
 }
+
+
