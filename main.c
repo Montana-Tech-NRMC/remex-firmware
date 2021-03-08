@@ -29,9 +29,6 @@ int main(void)
 	// default DCOCLKDIV as MCLK and SMCLK source
 	CSCTL5 |= DIVM__8; // SMCLK = MCLK = DCO/2 = 16 MHz/2 = 8 MHz
 
-	init_PWM_A();
-	init_PWM_B();
-
 	for ever {
 	    set_PWM_A(2000);
 	    set_PWM_B(4000);
