@@ -34,5 +34,3 @@ int main(void)
 	    set_PWM_B(4000);
 	}
 }
-
-
