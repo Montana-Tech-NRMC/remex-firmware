@@ -5,6 +5,7 @@
 #include <msp430.h>
 #include "remex.h"
 #include "i2c.h"
+#include "adc.h"
 
 /**
  * remex.c
@@ -18,13 +19,28 @@ unsigned char reg = UNKNOWN_REG;
 enum i2c_states state = start;
 ///////////////////////////////////////////
 
+void adc_channel_a(int current) {
+    volatile int foo = current;
+    return;
+}
+
+void adc_channel_b(int current) {
+    volatile int foo = current;
+    return;
+}
+
+void adc_channel_c(int current) {
+    volatile int foo = current;
+    return;
+}
+
 // init is called once at the beginning of operation.
 void init(void)
 {
     __bis_SR_register(GIE); // Enable global interrupts
     clear_registers();
     i2c_slave_init(start_condition_cb, stop_condition_cb, receive_cb, transmit_cb, SLAVE_ADDR);
-
+	setup_ADC(adc_channel_a, adc_channel_b, adc_channel_c);
 
     // Disable GPIO High impedance.
     PM5CTL0 &=~ LOCKLPM5;
@@ -33,6 +49,7 @@ void init(void)
 // code within loop repeats continually.
 void loop(void)
 {
+    read_adc(CHANNEL_A);
 }
 
 void clear_registers(void)
@@ -111,7 +128,4 @@ void process_cmd(unsigned char cmd)
     */
     // start pid control to move motors to desired positions.
     //pid_control(speedA, speedB, destA, destB);
-
 }
-
-

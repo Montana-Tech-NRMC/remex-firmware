@@ -57,6 +57,24 @@ enum i2c_states {
 };
 
 /**
+ * adc_channel_a is the call back function when the adc has finished it's conversion and has a
+ * value.
+ */
+void adc_channel_a(int current);
+
+/**
+ * adc_channel_b is the call back function when the adc has finished it's conversion and has a
+ * value.
+ */
+void adc_channel_b(int current);
+
+/**
+ * adc_channel_c is the call back function when the adc has finished it's conversion and has a
+ * value.
+ */
+void adc_channel_c(int current);
+
+/**
  * clear_registers is a helper function that sets all the registers in the register map to zero.
  */
 void clear_registers(void);
