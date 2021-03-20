@@ -6,6 +6,7 @@
 #include "remex.h"
 #include "i2c.h"
 #include "adc.h"
+#include "hardwareIO.h"
 
 /**
  * remex.c
@@ -24,23 +25,15 @@ void adc_channel_a(int current) {
     return;
 }
 
-void adc_channel_b(int current) {
-    volatile int foo = current;
-    return;
-}
-
-void adc_channel_c(int current) {
-    volatile int foo = current;
-    return;
-}
-
 // init is called once at the beginning of operation.
 void init(void)
 {
     __bis_SR_register(GIE); // Enable global interrupts
     clear_registers();
     i2c_slave_init(start_condition_cb, stop_condition_cb, receive_cb, transmit_cb, SLAVE_ADDR);
-	setup_ADC(adc_channel_a, adc_channel_b, adc_channel_c);
+	setup_ADC(adc_channel_a, 0, 0);
+
+	init_encoders(0, ((int*) &regmap[position_a_L]));
 
     // Disable GPIO High impedance.
     PM5CTL0 &=~ LOCKLPM5;
@@ -49,7 +42,6 @@ void init(void)
 // code within loop repeats continually.
 void loop(void)
 {
-    read_adc(CHANNEL_A);
 }
 
 void clear_registers(void)
@@ -73,15 +65,14 @@ void receive_cb(const unsigned char in)
         }
         break;
     case reg_set:
-        regmap[reg] = in;
-        reg++;
+        if (reg < REGMAP_SIZE) {
+            regmap[reg] = in;
+            reg++;
+        }
         break;
     case cmd_byte:
         process_cmd(in);
         break;
-    }
-    if (reg >= REGMAP_SIZE) {
-        reg = 0;
     }
 }
 
