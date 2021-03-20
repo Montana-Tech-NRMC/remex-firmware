@@ -39,7 +39,6 @@ void read_adc(int channel) {
     ADCCTL0 |= ADCENC | ADCSC; // Sampling conversion start
 }
 
-
 // ADC10 interrupt service routine
 #pragma vector=ADC_VECTOR
 __interrupt void ADC10_ISR(void)
