@@ -6,7 +6,7 @@
  */
 
 #include <msp430.h>
-//#include "remex.h"
+#include "remex.h"
 
 #define ever (;;)
 
@@ -29,8 +29,9 @@ int main(void)
 	// default DCOCLKDIV as MCLK and SMCLK source
 	CSCTL5 |= DIVM__8; // SMCLK = MCLK = DCO/2 = 16 MHz/2 = 8 MHz
 
+	init();
+
 	for ever {
-	    set_PWM_A(2000);
-	    set_PWM_B(4000);
+	    loop();
 	}
 }
