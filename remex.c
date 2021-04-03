@@ -5,6 +5,7 @@
 #include <msp430.h>
 #include "remex.h"
 #include "i2c.h"
+#include "pwm.h"
 #include "adc.h"
 #include "hardwareIO.h"
 
@@ -30,18 +31,26 @@ void init(void)
 {
     __bis_SR_register(GIE); // Enable global interrupts
     clear_registers();
-    i2c_slave_init(start_condition_cb, stop_condition_cb, receive_cb, transmit_cb, SLAVE_ADDR);
-	setup_ADC(adc_channel_a, 0, 0);
+    //i2c_slave_init(start_condition_cb, stop_condition_cb, receive_cb, transmit_cb, SLAVE_ADDR);
+    init_PWM_A();
+    init_PWM_B();
 
-	init_encoders(0, ((int*) &regmap[position_a_L]));
+	//init_encoders(((int*) &regmap[position_a_L]), ((int*) &regmap[position_a_L]));
 
     // Disable GPIO High impedance.
     PM5CTL0 &=~ LOCKLPM5;
+
+    P4DIR |= BIT7;
+    P4OUT |= BIT7;
+
+    set_PWM_A(2500);
+    set_PWM_B(3500);
 }
 
 // code within loop repeats continually.
 void loop(void)
 {
+
 }
 
 void clear_registers(void)

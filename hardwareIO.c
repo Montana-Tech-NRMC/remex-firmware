@@ -40,21 +40,26 @@ void init_switches(void (*switch_a)(int), void (*switch_b)(int))
 void init_encoders(int* count_a, int* count_b)
 {
     if (count_a) {
+        __bic_SR_register(GIE);
         P2DIR &=~(BIT2 | BIT3); // Set PIN 2.2 and 2.3 as input direction
         P2OUT |= (BIT2 | BIT3); // Set PIN 2.2 and 2.3 as pull up resistors (active low)
         P2REN |= (BIT2 | BIT3); // Enable pulling resistors on 2.2 and 2.3
         P2IES |= (BIT2); // 2.2 on Hi/low edge
         P2IE  |= (BIT2); // Enable Interrupt on 2.2
+        __bis_SR_register(GIE);
 
         __count_a = count_a; // store the pointer to the counter
     }
 
     if (count_b) {
-        P2DIR &=~(BIT4 | BIT5); // Set PIN 2.2 and 2.3 as input direction
+        __bic_SR_register(GIE); // Enable global interrupts
+        P2DIR &=~(BIT4 | BIT5); // Set PIN 2.4 and 2.5 as input direction
+        P2REN |= (BIT4 | BIT5); // Enable pulling resistors on 2.4 and 2.5
         P2OUT |= (BIT4 | BIT5); // Set PIN 2.2 and 2.3 as pull up resistors (active low)
-        P2REN |= (BIT4 | BIT5); // Enable pulling resistors on 2.2 and 2.3
+        P2IFG &=~ (BIT4);
         P2IES &=~ (BIT4); // 2.2 and 2.3 on Hi/low edge
-        P2IE  |= (BIT4); // Enable Interrupt on 2.2 and 2.3
+        P2IE  |= (BIT4); // Enable Interrupt on 2.4
+        __bis_SR_register(GIE); // Enable global interrupts
 
         __count_b = count_b; // store the pointer to the counter
         switch_a_cb = 0L;
@@ -65,7 +70,7 @@ void init_encoders(int* count_a, int* count_b)
 #pragma vector = PORT2_VECTOR
 __interrupt void Port_2(void)
 {
-    if (BIT2 & P2IN){
+    if (BIT2 & P2IFG){
         if (__count_a) {
             if(!(P2IN & BIT3)) {
                 *__count_a++;
@@ -76,7 +81,7 @@ __interrupt void Port_2(void)
         P2IFG &=~ BIT2;
     }
 
-    if (BIT4 & P2IN) {
+    if (BIT4 & P2IFG) {
         if (__count_b) {
             if((P2IN & BIT5)) {
                 *__count_b++;
@@ -91,7 +96,7 @@ __interrupt void Port_2(void)
         P2IFG &=~ BIT4;
     }
 
-    if (BIT5 & P2IN) {
+    if (BIT5 & P2IFG) {
         if (switch_b_cb) {
             switch_b_cb((P2IN & BIT5));
         }
