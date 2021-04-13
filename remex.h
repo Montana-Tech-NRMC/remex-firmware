@@ -120,4 +120,6 @@ void init(void);
  */
 void loop(void);
 
+void int2str(int inval, char * str_out);
+
 #endif /* REMEX_H_ */
