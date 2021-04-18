@@ -1,0 +1,128 @@
+\hypertarget{adc_8h}{}\doxysection{adc.\+h File Reference}
+\label{adc_8h}\index{adc.h@{adc.h}}
+{\ttfamily \#include $<$msp430.\+h$>$}\newline
+Include dependency graph for adc.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=145pt]{adc_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{adc_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{adc_8h_ac0d7906cb15245de34095a6b4885e7f2}{C\+H\+A\+N\+N\+E\+L\+\_\+A}}~A\+D\+C\+I\+N\+C\+H\+\_\+0
+\item 
+\#define \mbox{\hyperlink{adc_8h_a0dd7f83e17aef557e421aae81d420e35}{C\+H\+A\+N\+N\+E\+L\+\_\+B}}~A\+D\+C\+I\+N\+C\+H\+\_\+1
+\item 
+\#define \mbox{\hyperlink{adc_8h_a40c7502184031ecffb444903756bffd6}{C\+H\+A\+N\+N\+E\+L\+\_\+C}}~A\+D\+C\+I\+N\+C\+H\+\_\+11
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{adc_8h_ac186d7555bd1831e20943e895c8a2d78}{read\+\_\+adc}} (int channel)
+\item 
+void \mbox{\hyperlink{adc_8h_a2f471c515808810a6118d9ef8a328758}{setup\+\_\+\+A\+DC}} (void($\ast$cba)(int), void($\ast$cbb)(int), void($\ast$cbc)(int))
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+void($\ast$ \mbox{\hyperlink{adc_8h_a3d28e8b13ed63b4dce92120ebc50871d}{adc\+\_\+callbackA}} )(int)
+\begin{DoxyCompactList}\small\item\em adc call back functions that will be executed when when an adc is read \end{DoxyCompactList}\item 
+void($\ast$ \mbox{\hyperlink{adc_8h_aaae24d9664c8dffce39a00c35715c5b6}{adc\+\_\+callbackB}} )(int)
+\item 
+void($\ast$ \mbox{\hyperlink{adc_8h_a337e8c6e2ceae83c9eb2f5e74ac54405}{adc\+\_\+callbackC}} )(int)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{adc_8h_ac0d7906cb15245de34095a6b4885e7f2}\label{adc_8h_ac0d7906cb15245de34095a6b4885e7f2}} 
+\index{adc.h@{adc.h}!CHANNEL\_A@{CHANNEL\_A}}
+\index{CHANNEL\_A@{CHANNEL\_A}!adc.h@{adc.h}}
+\doxysubsubsection{\texorpdfstring{CHANNEL\_A}{CHANNEL\_A}}
+{\footnotesize\ttfamily \#define C\+H\+A\+N\+N\+E\+L\+\_\+A~A\+D\+C\+I\+N\+C\+H\+\_\+0}
+
+over\+\_\+current.\+h
+
+Created on\+: Aug 22, 2020 Author\+: Justin Bak Code Owner\+: Justin Bak Constants to be used in read\+\_\+adc to select channels. \mbox{\Hypertarget{adc_8h_a0dd7f83e17aef557e421aae81d420e35}\label{adc_8h_a0dd7f83e17aef557e421aae81d420e35}} 
+\index{adc.h@{adc.h}!CHANNEL\_B@{CHANNEL\_B}}
+\index{CHANNEL\_B@{CHANNEL\_B}!adc.h@{adc.h}}
+\doxysubsubsection{\texorpdfstring{CHANNEL\_B}{CHANNEL\_B}}
+{\footnotesize\ttfamily \#define C\+H\+A\+N\+N\+E\+L\+\_\+B~A\+D\+C\+I\+N\+C\+H\+\_\+1}
+
+\mbox{\Hypertarget{adc_8h_a40c7502184031ecffb444903756bffd6}\label{adc_8h_a40c7502184031ecffb444903756bffd6}} 
+\index{adc.h@{adc.h}!CHANNEL\_C@{CHANNEL\_C}}
+\index{CHANNEL\_C@{CHANNEL\_C}!adc.h@{adc.h}}
+\doxysubsubsection{\texorpdfstring{CHANNEL\_C}{CHANNEL\_C}}
+{\footnotesize\ttfamily \#define C\+H\+A\+N\+N\+E\+L\+\_\+C~A\+D\+C\+I\+N\+C\+H\+\_\+11}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{adc_8h_ac186d7555bd1831e20943e895c8a2d78}\label{adc_8h_ac186d7555bd1831e20943e895c8a2d78}} 
+\index{adc.h@{adc.h}!read\_adc@{read\_adc}}
+\index{read\_adc@{read\_adc}!adc.h@{adc.h}}
+\doxysubsubsection{\texorpdfstring{read\_adc()}{read\_adc()}}
+{\footnotesize\ttfamily void read\+\_\+adc (\begin{DoxyParamCaption}\item[{int}]{channel }\end{DoxyParamCaption})}
+
+read\+\_\+adc will read the input channel A and call adc\+\_\+callbackA with the result of the call
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em channel} & is the channel that should be read. Constants for channels to read are defined as constants. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{adc_8h_a2f471c515808810a6118d9ef8a328758}\label{adc_8h_a2f471c515808810a6118d9ef8a328758}} 
+\index{adc.h@{adc.h}!setup\_ADC@{setup\_ADC}}
+\index{setup\_ADC@{setup\_ADC}!adc.h@{adc.h}}
+\doxysubsubsection{\texorpdfstring{setup\_ADC()}{setup\_ADC()}}
+{\footnotesize\ttfamily void setup\+\_\+\+A\+DC (\begin{DoxyParamCaption}\item[{void($\ast$)(int)}]{cba,  }\item[{void($\ast$)(int)}]{cbb,  }\item[{void($\ast$)(int)}]{cbc }\end{DoxyParamCaption})}
+
+setup\+\_\+\+A\+DC will map the call back functions and initilize G\+P\+IO for reading A\+DC on 3 channels.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em cba} & function pointer which will be called by the A\+DC I\+SR when a sample on channel A is ready \\
+\hline
+\mbox{\texttt{ in}}  & {\em cbb} & function pointer which will be called by the A\+DC I\+SR when a sample on channel B is ready \\
+\hline
+\mbox{\texttt{ in}}  & {\em cbc} & function pointer which will be called by the A\+DC I\+SR when a sample on channel C is ready\\
+\hline
+\end{DoxyParams}
+over\+\_\+current.\+c
+
+Created on\+: Aug 22, 2020 Author\+: Justin Bak Code Owner\+: Justin Bak
+
+A\+DC on pins\+: \hypertarget{adc_8h_autotoc_md0}{}\doxysubsubsection{P\+I\+N     Channel}\label{adc_8h_autotoc_md0}
+1.\+0 A 1.\+1 B 5.\+3 C 
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{adc_8h_a3d28e8b13ed63b4dce92120ebc50871d}\label{adc_8h_a3d28e8b13ed63b4dce92120ebc50871d}} 
+\index{adc.h@{adc.h}!adc\_callbackA@{adc\_callbackA}}
+\index{adc\_callbackA@{adc\_callbackA}!adc.h@{adc.h}}
+\doxysubsubsection{\texorpdfstring{adc\_callbackA}{adc\_callbackA}}
+{\footnotesize\ttfamily void($\ast$ adc\+\_\+callbackA) (int)}
+
+
+
+adc call back functions that will be executed when when an adc is read 
+
+\mbox{\Hypertarget{adc_8h_aaae24d9664c8dffce39a00c35715c5b6}\label{adc_8h_aaae24d9664c8dffce39a00c35715c5b6}} 
+\index{adc.h@{adc.h}!adc\_callbackB@{adc\_callbackB}}
+\index{adc\_callbackB@{adc\_callbackB}!adc.h@{adc.h}}
+\doxysubsubsection{\texorpdfstring{adc\_callbackB}{adc\_callbackB}}
+{\footnotesize\ttfamily void($\ast$ adc\+\_\+callbackB) (int)}
+
+\mbox{\Hypertarget{adc_8h_a337e8c6e2ceae83c9eb2f5e74ac54405}\label{adc_8h_a337e8c6e2ceae83c9eb2f5e74ac54405}} 
+\index{adc.h@{adc.h}!adc\_callbackC@{adc\_callbackC}}
+\index{adc\_callbackC@{adc\_callbackC}!adc.h@{adc.h}}
+\doxysubsubsection{\texorpdfstring{adc\_callbackC}{adc\_callbackC}}
+{\footnotesize\ttfamily void($\ast$ adc\+\_\+callbackC) (int)}
+

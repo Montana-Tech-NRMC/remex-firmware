@@ -1,0 +1,73 @@
+Step 1\+: In code compser create a new empty project by clicking on File$>$New$>$C\+CS Project and clicking \char`\"{}\+Empty Project\char`\"{}
+
+Step 2\+: Set the project to target the M\+S\+P430 F\+R2355 and name the project Remex
+
+Step 3\+: Using git initialize a new repository in the folder that was just created using {\ttfamily git init}
+
+Step 4\+: Set the remote of the git repository to this gitlab repo by using the command {\ttfamily git remote add origin git@gitlab.\+cs.\+mtech.\+edu\+:ee-\/projects/nasa-\/rmc-\/software-\/group/motor\+\_\+board2.\+0.\+git}
+
+Step 5\+: Pull any updates in from the master branch into your repository using {\ttfamily git pull origin master}\hypertarget{md_README_autotoc_md2}{}\doxysection{H\+O\+W T\+O U\+S\+E T\+H\+E P\+R\+O\+J\+E\+CT}\label{md_README_autotoc_md2}
+The project is designed to be adaptable to any system on the robot. The different hardware interfaces are designed such that they can be easily used by each system without the need for modification. The rest of this document will demonstrate how to use the code in this repository to develop firmware to control new robotic systems with the Remex board.\hypertarget{md_README_autotoc_md3}{}\doxysubsection{Remex}\label{md_README_autotoc_md3}
+The {\ttfamily \mbox{\hyperlink{remex_8c}{remex.\+c}}} and {\ttfamily \mbox{\hyperlink{remex_8h}{remex.\+h}}} files are the primary files for the user to edit to utilize the board. The two primary functions that should be used are the {\ttfamily init} function and the {\ttfamily loop} function. The {\ttfamily init} function is called once after the board has turned on and has been set to 8M\+Hz processing. The {\ttfamily loop} function is then continuously called afterwards.
+
+The {\ttfamily \mbox{\hyperlink{remex_8h}{remex.\+h}}} file has also defined the default register map that the I2C master uses to interface with the board. This register map along with the provided I2C slave functions {\ttfamily recieve\+\_\+cb}, {\ttfamily transmit\+\_\+cb}, {\ttfamily start\+\_\+condition\+\_\+cb}, and {\ttfamily stop\+\_\+condition\+\_\+cb} implement a simple I2C register map implementation that will allow an I2C master to read and write data to the slave board. This also allows the board to execute commands from the master device with the {\ttfamily process\+\_\+cmd} function.\hypertarget{md_README_autotoc_md4}{}\doxysubsection{Hardware IO}\label{md_README_autotoc_md4}
+There are two kinds of hardware I/O this board can use. First is the Q\+EI encoder interface and the second type is the limit switch interface. The board can support up to two channels of Q\+EI at once, or one channel of Q\+EI and 2 limit switches at the same time. It is important to note that the second channel of Q\+EI uses the same pins as is used for the limit switches so both cannot be initialized at the same time.\hypertarget{md_README_autotoc_md5}{}\doxysubsubsection{Q\+E\+I Interface}\label{md_README_autotoc_md5}
+The Q\+EI is defined in the {\ttfamily \mbox{\hyperlink{hardwareIO_8h}{hardware\+I\+O.\+h}}} file. There is only one function {\ttfamily \mbox{\hyperlink{hardwareIO_8h_a14c7458d7ff8ed4c46c12b5fe372a4b1}{init\+\_\+encoders(int$\ast$, int$\ast$)}}} to initialize the Q\+EI hardware interrupts. It takes two parameters. Each parameter is a pointer to an integer which will store the count of clicks. Interrupts in the {\ttfamily \mbox{\hyperlink{hardwareIO_8c}{hardware\+I\+O.\+c}}} will increment and decrement passed in variable. Either of the parameters can be N\+U\+LL (0L). If either of the parameters is N\+U\+LL the encoder related to that parameter will not be initialized\hypertarget{md_README_autotoc_md6}{}\doxysubsubsection{Limit switches}\label{md_README_autotoc_md6}
+Limit switches are also defined in the {\ttfamily \mbox{\hyperlink{hardwareIO_8h}{hardware\+I\+O.\+h}}} file. The {\ttfamily init\+\_\+switches} the function will initialize hardware interrupts to watch the limit switch pins on a H\+I/\+LO edge trigger. The function also configures the pins with pull up resistors to make them active low.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{hardwareIO_8h_af45c1ffb7990f47a3d7302483970a101}{init\_switches}}(\textcolor{keywordtype}{void}(*switch\_a)(\textcolor{keywordtype}{int}), \textcolor{keywordtype}{void}(*switch\_b)(\textcolor{keywordtype}{int}));}
+\end{DoxyCode}
+
+
+The two parameters the function takes are function pointers that will be invoked when the interrupt for a limit switch is triggered. This allows the user to determine the behavior the board has in response to switches being triggered. If either function is passed in as N\+U\+LL (0L) then the corresponding switch is not initialized.\hypertarget{md_README_autotoc_md7}{}\doxysubsection{A\+DC}\label{md_README_autotoc_md7}
+This board has 3 channels of 12 bit A\+DC to sample different signals. The first two channels A and B are dedicated to the on board current sensors on the P\+CB. The third channel, C, is an auxiliary A\+DC channel that can be used for any purpose. There are two functions to utilize the A\+DC on the board.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{void} \mbox{\hyperlink{adc_8c_a2f471c515808810a6118d9ef8a328758}{setup\_ADC}}(\textcolor{keywordtype}{void} (*cba)(\textcolor{keywordtype}{int}), \textcolor{keywordtype}{void} (*cbb)(\textcolor{keywordtype}{int}), \textcolor{keywordtype}{void} (*cbc)(\textcolor{keywordtype}{int}));}
+\end{DoxyCode}
+
+
+The {\ttfamily setup\+\_\+\+A\+DC} function will initialize the hardware to sample on the A\+DC pins of the board. The function takes 3 function pointers as parameters. When a sample from the A\+DC has been processed the corresponding function pointer will be called with the value of the sample passed in to the first parameter.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{void} read\_ADC(\textcolor{keywordtype}{int} channel);}
+\end{DoxyCode}
+
+
+{\ttfamily read\+\_\+\+A\+DC} trigger the A\+DC to start reading a new sample. When the A\+DC is finished processing the sample it will fire the appropriate function pointer with the value of the sample. The first parameter of the function determines which of the 3 A\+DC channels should be sampled. Constants for each channel are provided in the {\ttfamily \mbox{\hyperlink{adc_8h}{adc.\+h}}} header file.\hypertarget{md_README_autotoc_md8}{}\doxysubsection{P\+WM}\label{md_README_autotoc_md8}
+P\+WM is used to manage the motor controllers that the Remex board is connected to. The Remex board is able to manage two motor controllers at once and therefore has to channels of P\+WM. All P\+WM functions can be found in the {\ttfamily \mbox{\hyperlink{pwm_8h}{pwm.\+h}}} header file.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{void} \mbox{\hyperlink{pwm_8c_af45c01e0f4587b9687c021fc4832ac79}{init\_PWM\_A}}();}
+\end{DoxyCode}
+
+
+{\ttfamily init\+\_\+\+P\+W\+M\+\_\+A} will initialize the timer hardware for P\+WM control. There is a equivalent {\ttfamily init\+\_\+\+P\+W\+M\+\_\+B} which will initialize the second channel of P\+WM.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{void} \mbox{\hyperlink{pwm_8c_af35e20f0518646b5536d2dc07183c79d}{set\_PWM\_A}}(\textcolor{keyword}{const} \textcolor{keywordtype}{int} in);}
+\end{DoxyCode}
+
+
+Setting the outputted P\+WM signal is as simple as calling the {\ttfamily set\+\_\+\+P\+W\+M\+\_\+A} function passing an integer between 2000 and 4000. 2000 being full reverse on continuous rotation devices, and minimum angle on positional devices. 4000 is the full forward on continuous rotation devices and maximum angle on positional devices. Any value outside of this range of 2000 to 4000 will be capped to either 4000 if {\ttfamily in $>$ 4000} or 2000 if {\ttfamily in $<$ 2000}. There is an equivalent\hypertarget{md_README_autotoc_md9}{}\doxysubsection{I2C}\label{md_README_autotoc_md9}
+The Remex board recieves commands over a serial i2c bus connected through the U\+SB mini port. The Remex board has hardware to deal with i2c and this hardware can be initialized with the function {\ttfamily i2c\+\_\+slave\+\_\+init}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{void} \mbox{\hyperlink{i2c_8c_a80c002e1f7a59ece6fb2a20e2b20c506}{i2c\_slave\_init}}(}
+\DoxyCodeLine{        \textcolor{keywordtype}{void} (*stt\_cb)(\textcolor{keywordtype}{void}),}
+\DoxyCodeLine{        \textcolor{keywordtype}{void} (*stp\_cb)(\textcolor{keywordtype}{void}),}
+\DoxyCodeLine{        \textcolor{keywordtype}{void} (*rx\_cb)(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} in),}
+\DoxyCodeLine{        \textcolor{keywordtype}{void} (*tx\_cb)(\textcolor{keywordtype}{unsigned} \textcolor{keyword}{volatile} \textcolor{keywordtype}{int} *out),}
+\DoxyCodeLine{        \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} slave\_addr);}
+\end{DoxyCode}
+
+
+{\ttfamily i2c\+\_\+slave\+\_\+init} will set up the hardware to behave as an I2C slave with an address of {\ttfamily slave\+\_\+addr}. The first four parameters of the {\ttfamily i2c\+\_\+slave\+\_\+init} function are pointers to functions that will be called at the different points of the I2C protocol. The first pointer {\ttfamily stt\+\_\+cb} is called when the microcontroller detects the start condition. The {\ttfamily stp\+\_\+cb} is called when the stop condition is detected. The {\ttfamily rx\+\_\+cb} is called when the microcontroller recieves a byte of data over the i2c bus and the recieved byte is passed in as the first parameter. When the microcontroller is requested by the master to send data the {\ttfamily tx\+\_\+cb} is called and a pointer to the byte to send data is provided. Users of the {\ttfamily tx\+\_\+cb} function will be able to send a byte in the {\ttfamily tx\+\_\+cb} function by setting {\ttfamily out} equal to the data to be sent.\hypertarget{md_README_autotoc_md10}{}\doxysubsection{Main}\label{md_README_autotoc_md10}
+The {\ttfamily \mbox{\hyperlink{main_8c}{main.\+c}}} should not need to be modified much by the user. The main function will set the internal clock speed of the processor to 8M\+Hz and is responsible for calling the {\ttfamily init} function and the {\ttfamily loop} function from {\ttfamily \mbox{\hyperlink{remex_8h}{remex.\+h}}}. 

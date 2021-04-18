@@ -1,0 +1,98 @@
+\hypertarget{i2c_8h}{}\doxysection{i2c.\+h File Reference}
+\label{i2c_8h}\index{i2c.h@{i2c.h}}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=194pt]{i2c_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{i2c_8h_a526d580d324bce60a3e964066fae77e3}{S\+D\+A\+\_\+\+P\+IN}}~B\+I\+T2
+\item 
+\#define \mbox{\hyperlink{i2c_8h_a06c967e78bcedcee909a70764f879433}{S\+C\+L\+\_\+\+P\+IN}}~B\+I\+T3
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{i2c_8h_a80c002e1f7a59ece6fb2a20e2b20c506}{i2c\+\_\+slave\+\_\+init}} (void($\ast$stt\+\_\+cb)(void), void($\ast$stp\+\_\+cb)(void), void($\ast$rx\+\_\+cb)(unsigned char in), void($\ast$tx\+\_\+cb)(unsigned volatile int $\ast$out), unsigned char slave\+\_\+addr)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+void($\ast$ \mbox{\hyperlink{i2c_8h_a18655a0257c4a00b5b664292457b546f}{receive\+\_\+func}} )(const unsigned char in)
+\item 
+void($\ast$ \mbox{\hyperlink{i2c_8h_aefcc9723e3a439f254752214577a7961}{transmit\+\_\+func}} )(unsigned volatile int $\ast$out)
+\item 
+void($\ast$ \mbox{\hyperlink{i2c_8h_ad9c09681e2db376aa55a055dc6bbf841}{start\+\_\+func}} )(void)
+\item 
+void($\ast$ \mbox{\hyperlink{i2c_8h_aa39b809679c2f5ce630733a5a91699ec}{stop\+\_\+func}} )(void)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{i2c_8h_a06c967e78bcedcee909a70764f879433}\label{i2c_8h_a06c967e78bcedcee909a70764f879433}} 
+\index{i2c.h@{i2c.h}!SCL\_PIN@{SCL\_PIN}}
+\index{SCL\_PIN@{SCL\_PIN}!i2c.h@{i2c.h}}
+\doxysubsubsection{\texorpdfstring{SCL\_PIN}{SCL\_PIN}}
+{\footnotesize\ttfamily \#define S\+C\+L\+\_\+\+P\+IN~B\+I\+T3}
+
+\mbox{\Hypertarget{i2c_8h_a526d580d324bce60a3e964066fae77e3}\label{i2c_8h_a526d580d324bce60a3e964066fae77e3}} 
+\index{i2c.h@{i2c.h}!SDA\_PIN@{SDA\_PIN}}
+\index{SDA\_PIN@{SDA\_PIN}!i2c.h@{i2c.h}}
+\doxysubsubsection{\texorpdfstring{SDA\_PIN}{SDA\_PIN}}
+{\footnotesize\ttfamily \#define S\+D\+A\+\_\+\+P\+IN~B\+I\+T2}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{i2c_8h_a80c002e1f7a59ece6fb2a20e2b20c506}\label{i2c_8h_a80c002e1f7a59ece6fb2a20e2b20c506}} 
+\index{i2c.h@{i2c.h}!i2c\_slave\_init@{i2c\_slave\_init}}
+\index{i2c\_slave\_init@{i2c\_slave\_init}!i2c.h@{i2c.h}}
+\doxysubsubsection{\texorpdfstring{i2c\_slave\_init()}{i2c\_slave\_init()}}
+{\footnotesize\ttfamily void i2c\+\_\+slave\+\_\+init (\begin{DoxyParamCaption}\item[{void($\ast$)(void)}]{stt\+\_\+cb,  }\item[{void($\ast$)(void)}]{stp\+\_\+cb,  }\item[{void($\ast$)(unsigned char in)}]{rx\+\_\+cb,  }\item[{void($\ast$)(unsigned volatile int $\ast$out)}]{tx\+\_\+cb,  }\item[{unsigned char}]{slave\+\_\+addr }\end{DoxyParamCaption})}
+
+i2c\+\_\+slave\+\_\+init will initialize the i2c bus and set the device address.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stt\+\_\+cb} & function pointer to be called when a i2c start condition is detected \\
+\hline
+\mbox{\texttt{ in}}  & {\em stp\+\_\+cb} & function pointer to be called when a i2c stop condition is detected \\
+\hline
+\mbox{\texttt{ in}}  & {\em rx\+\_\+cb} & function pointer to be called when i2c byte is received from master \\
+\hline
+\mbox{\texttt{ in}}  & {\em tx\+\_\+cb} & function pointer to be called to send i2c byte to master \\
+\hline
+\mbox{\texttt{ in}}  & {\em slave\+\_\+addr} & is the desired device address. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{i2c_8h_a18655a0257c4a00b5b664292457b546f}\label{i2c_8h_a18655a0257c4a00b5b664292457b546f}} 
+\index{i2c.h@{i2c.h}!receive\_func@{receive\_func}}
+\index{receive\_func@{receive\_func}!i2c.h@{i2c.h}}
+\doxysubsubsection{\texorpdfstring{receive\_func}{receive\_func}}
+{\footnotesize\ttfamily void($\ast$ receive\+\_\+func) (const unsigned char in)}
+
+\mbox{\Hypertarget{i2c_8h_ad9c09681e2db376aa55a055dc6bbf841}\label{i2c_8h_ad9c09681e2db376aa55a055dc6bbf841}} 
+\index{i2c.h@{i2c.h}!start\_func@{start\_func}}
+\index{start\_func@{start\_func}!i2c.h@{i2c.h}}
+\doxysubsubsection{\texorpdfstring{start\_func}{start\_func}}
+{\footnotesize\ttfamily void($\ast$ start\+\_\+func) (void)}
+
+\mbox{\Hypertarget{i2c_8h_aa39b809679c2f5ce630733a5a91699ec}\label{i2c_8h_aa39b809679c2f5ce630733a5a91699ec}} 
+\index{i2c.h@{i2c.h}!stop\_func@{stop\_func}}
+\index{stop\_func@{stop\_func}!i2c.h@{i2c.h}}
+\doxysubsubsection{\texorpdfstring{stop\_func}{stop\_func}}
+{\footnotesize\ttfamily void($\ast$ stop\+\_\+func) (void)}
+
+\mbox{\Hypertarget{i2c_8h_aefcc9723e3a439f254752214577a7961}\label{i2c_8h_aefcc9723e3a439f254752214577a7961}} 
+\index{i2c.h@{i2c.h}!transmit\_func@{transmit\_func}}
+\index{transmit\_func@{transmit\_func}!i2c.h@{i2c.h}}
+\doxysubsubsection{\texorpdfstring{transmit\_func}{transmit\_func}}
+{\footnotesize\ttfamily void($\ast$ transmit\+\_\+func) (unsigned volatile int $\ast$out)}
+

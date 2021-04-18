@@ -1,0 +1,165 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\contentsline {chapter}{\numberline {1}H\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}OW TO C\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}L\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}O\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}NE T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}H\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}IS R\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}E\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}P\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}O\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}S\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}I\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}O\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}RY I\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}TO C\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}O\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}DE C\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}O\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}M\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}P\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}O\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}S\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ER}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}H\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}O\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}W T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}O U\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}S\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}E T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}H\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}E P\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}R\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}O\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}J\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}E\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}CT}{1}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Remex}{1}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}Hardware IO}{2}{subsection.1.1.2}%
+\contentsline {subsubsection}{\numberline {1.1.2.1}Q\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}E\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}I Interface}{2}{subsubsection.1.1.2.1}%
+\contentsline {subsubsection}{\numberline {1.1.2.2}Limit switches}{2}{subsubsection.1.1.2.2}%
+\contentsline {subsection}{\numberline {1.1.3}A\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}DC}{2}{subsection.1.1.3}%
+\contentsline {subsection}{\numberline {1.1.4}P\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}WM}{2}{subsection.1.1.4}%
+\contentsline {subsection}{\numberline {1.1.5}I2C}{3}{subsection.1.1.5}%
+\contentsline {subsection}{\numberline {1.1.6}Main}{3}{subsection.1.1.6}%
+\contentsline {chapter}{\numberline {2}File Index}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}File List}{5}{section.2.1}%
+\contentsline {chapter}{\numberline {3}File Documentation}{7}{chapter.3}%
+\contentsline {section}{\numberline {3.1}adc.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c File Reference}{7}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Function Documentation}{7}{subsection.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.1.1}ADC10\_ISR()}{8}{subsubsection.3.1.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.1.2}read\_adc()}{8}{subsubsection.3.1.1.2}%
+\contentsline {subsubsection}{\numberline {3.1.1.3}setup\_ADC()}{8}{subsubsection.3.1.1.3}%
+\contentsline {subsubsection}{\numberline {3.1.1.4}P\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}I\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N Channel}{8}{subsubsection.3.1.1.4}%
+\contentsline {section}{\numberline {3.2}adc.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h File Reference}{9}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Macro Definition Documentation}{10}{subsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.1.1}CHANNEL\_A}{10}{subsubsection.3.2.1.1}%
+\contentsline {subsubsection}{\numberline {3.2.1.2}CHANNEL\_B}{10}{subsubsection.3.2.1.2}%
+\contentsline {subsubsection}{\numberline {3.2.1.3}CHANNEL\_C}{10}{subsubsection.3.2.1.3}%
+\contentsline {subsection}{\numberline {3.2.2}Function Documentation}{10}{subsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.2.1}read\_adc()}{10}{subsubsection.3.2.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2.2}setup\_ADC()}{10}{subsubsection.3.2.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.2.3}P\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}I\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N Channel}{11}{subsubsection.3.2.2.3}%
+\contentsline {subsection}{\numberline {3.2.3}Variable Documentation}{11}{subsection.3.2.3}%
+\contentsline {subsubsection}{\numberline {3.2.3.1}adc\_callbackA}{11}{subsubsection.3.2.3.1}%
+\contentsline {subsubsection}{\numberline {3.2.3.2}adc\_callbackB}{11}{subsubsection.3.2.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.3.3}adc\_callbackC}{11}{subsubsection.3.2.3.3}%
+\contentsline {section}{\numberline {3.3}hardware\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}I\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}O.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c File Reference}{12}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Function Documentation}{12}{subsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.1.1}init\_encoders()}{12}{subsubsection.3.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.3.1.2}Port\_2()}{13}{subsubsection.3.3.1.2}%
+\contentsline {subsection}{\numberline {3.3.2}Variable Documentation}{13}{subsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.2.1}\_\_count\_a}{13}{subsubsection.3.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.3.2.2}\_\_count\_b}{13}{subsubsection.3.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.3.2.3}switch\_a\_cb}{13}{subsubsection.3.3.2.3}%
+\contentsline {section}{\numberline {3.4}hardware\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}I\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}O.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h File Reference}{13}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Function Documentation}{14}{subsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.1.1}init\_encoders()}{14}{subsubsection.3.4.1.1}%
+\contentsline {subsubsection}{\numberline {3.4.1.2}init\_switches()}{14}{subsubsection.3.4.1.2}%
+\contentsline {section}{\numberline {3.5}i2c.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c File Reference}{14}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Function Documentation}{15}{subsection.3.5.1}%
+\contentsline {subsubsection}{\numberline {3.5.1.1}i2c\_slave\_init()}{15}{subsubsection.3.5.1.1}%
+\contentsline {subsubsection}{\numberline {3.5.1.2}USCIB0\_ISR()}{16}{subsubsection.3.5.1.2}%
+\contentsline {section}{\numberline {3.6}i2c.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h File Reference}{16}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Macro Definition Documentation}{16}{subsection.3.6.1}%
+\contentsline {subsubsection}{\numberline {3.6.1.1}SCL\_PIN}{17}{subsubsection.3.6.1.1}%
+\contentsline {subsubsection}{\numberline {3.6.1.2}SDA\_PIN}{17}{subsubsection.3.6.1.2}%
+\contentsline {subsection}{\numberline {3.6.2}Function Documentation}{17}{subsection.3.6.2}%
+\contentsline {subsubsection}{\numberline {3.6.2.1}i2c\_slave\_init()}{17}{subsubsection.3.6.2.1}%
+\contentsline {subsection}{\numberline {3.6.3}Variable Documentation}{17}{subsection.3.6.3}%
+\contentsline {subsubsection}{\numberline {3.6.3.1}receive\_func}{17}{subsubsection.3.6.3.1}%
+\contentsline {subsubsection}{\numberline {3.6.3.2}start\_func}{18}{subsubsection.3.6.3.2}%
+\contentsline {subsubsection}{\numberline {3.6.3.3}stop\_func}{18}{subsubsection.3.6.3.3}%
+\contentsline {subsubsection}{\numberline {3.6.3.4}transmit\_func}{18}{subsubsection.3.6.3.4}%
+\contentsline {section}{\numberline {3.7}main.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c File Reference}{18}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}Macro Definition Documentation}{18}{subsection.3.7.1}%
+\contentsline {subsubsection}{\numberline {3.7.1.1}ever}{19}{subsubsection.3.7.1.1}%
+\contentsline {subsection}{\numberline {3.7.2}Function Documentation}{19}{subsection.3.7.2}%
+\contentsline {subsubsection}{\numberline {3.7.2.1}main()}{19}{subsubsection.3.7.2.1}%
+\contentsline {section}{\numberline {3.8}pwm.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c File Reference}{19}{section.3.8}%
+\contentsline {subsection}{\numberline {3.8.1}Function Documentation}{19}{subsection.3.8.1}%
+\contentsline {subsubsection}{\numberline {3.8.1.1}init\_clk\_src()}{20}{subsubsection.3.8.1.1}%
+\contentsline {subsubsection}{\numberline {3.8.1.2}init\_PWM\_A()}{20}{subsubsection.3.8.1.2}%
+\contentsline {subsubsection}{\numberline {3.8.1.3}init\_PWM\_B()}{20}{subsubsection.3.8.1.3}%
+\contentsline {subsubsection}{\numberline {3.8.1.4}set\_PWM\_A()}{20}{subsubsection.3.8.1.4}%
+\contentsline {subsubsection}{\numberline {3.8.1.5}set\_PWM\_B()}{20}{subsubsection.3.8.1.5}%
+\contentsline {section}{\numberline {3.9}pwm.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h File Reference}{21}{section.3.9}%
+\contentsline {subsection}{\numberline {3.9.1}Macro Definition Documentation}{22}{subsection.3.9.1}%
+\contentsline {subsubsection}{\numberline {3.9.1.1}MAX}{22}{subsubsection.3.9.1.1}%
+\contentsline {subsubsection}{\numberline {3.9.1.2}MIN}{22}{subsubsection.3.9.1.2}%
+\contentsline {subsubsection}{\numberline {3.9.1.3}PWMPINA}{22}{subsubsection.3.9.1.3}%
+\contentsline {subsubsection}{\numberline {3.9.1.4}PWMPINB}{22}{subsubsection.3.9.1.4}%
+\contentsline {subsection}{\numberline {3.9.2}Function Documentation}{22}{subsection.3.9.2}%
+\contentsline {subsubsection}{\numberline {3.9.2.1}init\_clk\_src()}{22}{subsubsection.3.9.2.1}%
+\contentsline {subsubsection}{\numberline {3.9.2.2}init\_PWM\_A()}{22}{subsubsection.3.9.2.2}%
+\contentsline {subsubsection}{\numberline {3.9.2.3}init\_PWM\_B()}{22}{subsubsection.3.9.2.3}%
+\contentsline {subsubsection}{\numberline {3.9.2.4}set\_PWM\_A()}{22}{subsubsection.3.9.2.4}%
+\contentsline {subsubsection}{\numberline {3.9.2.5}set\_PWM\_B()}{23}{subsubsection.3.9.2.5}%
+\contentsline {section}{\numberline {3.10}R\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}E\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}A\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}D\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}M\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}E.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}md File Reference}{23}{section.3.10}%
+\contentsline {section}{\numberline {3.11}remex.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c File Reference}{23}{section.3.11}%
+\contentsline {subsection}{\numberline {3.11.1}Function Documentation}{24}{subsection.3.11.1}%
+\contentsline {subsubsection}{\numberline {3.11.1.1}adc\_channel\_a()}{24}{subsubsection.3.11.1.1}%
+\contentsline {subsubsection}{\numberline {3.11.1.2}clear\_registers()}{24}{subsubsection.3.11.1.2}%
+\contentsline {subsubsection}{\numberline {3.11.1.3}init()}{24}{subsubsection.3.11.1.3}%
+\contentsline {subsubsection}{\numberline {3.11.1.4}int2str()}{24}{subsubsection.3.11.1.4}%
+\contentsline {subsubsection}{\numberline {3.11.1.5}loop()}{25}{subsubsection.3.11.1.5}%
+\contentsline {subsubsection}{\numberline {3.11.1.6}process\_cmd()}{25}{subsubsection.3.11.1.6}%
+\contentsline {subsubsection}{\numberline {3.11.1.7}receive\_cb()}{25}{subsubsection.3.11.1.7}%
+\contentsline {subsubsection}{\numberline {3.11.1.8}start\_condition\_cb()}{25}{subsubsection.3.11.1.8}%
+\contentsline {subsubsection}{\numberline {3.11.1.9}stop\_condition\_cb()}{26}{subsubsection.3.11.1.9}%
+\contentsline {subsubsection}{\numberline {3.11.1.10}transmit\_cb()}{26}{subsubsection.3.11.1.10}%
+\contentsline {subsection}{\numberline {3.11.2}Variable Documentation}{26}{subsection.3.11.2}%
+\contentsline {subsubsection}{\numberline {3.11.2.1}enc\_str}{26}{subsubsection.3.11.2.1}%
+\contentsline {subsubsection}{\numberline {3.11.2.2}encoder}{26}{subsubsection.3.11.2.2}%
+\contentsline {subsubsection}{\numberline {3.11.2.3}reg}{26}{subsubsection.3.11.2.3}%
+\contentsline {subsubsection}{\numberline {3.11.2.4}regmap}{26}{subsubsection.3.11.2.4}%
+\contentsline {subsubsection}{\numberline {3.11.2.5}state}{27}{subsubsection.3.11.2.5}%
+\contentsline {section}{\numberline {3.12}remex.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h File Reference}{27}{section.3.12}%
+\contentsline {subsection}{\numberline {3.12.1}Macro Definition Documentation}{28}{subsection.3.12.1}%
+\contentsline {subsubsection}{\numberline {3.12.1.1}ADC\_A\_H}{28}{subsubsection.3.12.1.1}%
+\contentsline {subsubsection}{\numberline {3.12.1.2}ADC\_A\_L}{28}{subsubsection.3.12.1.2}%
+\contentsline {subsubsection}{\numberline {3.12.1.3}ADC\_B\_H}{28}{subsubsection.3.12.1.3}%
+\contentsline {subsubsection}{\numberline {3.12.1.4}ADC\_B\_L}{29}{subsubsection.3.12.1.4}%
+\contentsline {subsubsection}{\numberline {3.12.1.5}ADC\_C\_H}{29}{subsubsection.3.12.1.5}%
+\contentsline {subsubsection}{\numberline {3.12.1.6}ADC\_C\_L}{29}{subsubsection.3.12.1.6}%
+\contentsline {subsubsection}{\numberline {3.12.1.7}command\_reg}{29}{subsubsection.3.12.1.7}%
+\contentsline {subsubsection}{\numberline {3.12.1.8}current\_duration\_H}{29}{subsubsection.3.12.1.8}%
+\contentsline {subsubsection}{\numberline {3.12.1.9}current\_duration\_L}{29}{subsubsection.3.12.1.9}%
+\contentsline {subsubsection}{\numberline {3.12.1.10}des\_pos\_a\_H}{29}{subsubsection.3.12.1.10}%
+\contentsline {subsubsection}{\numberline {3.12.1.11}des\_pos\_a\_L}{30}{subsubsection.3.12.1.11}%
+\contentsline {subsubsection}{\numberline {3.12.1.12}des\_pos\_b\_H}{30}{subsubsection.3.12.1.12}%
+\contentsline {subsubsection}{\numberline {3.12.1.13}des\_pos\_b\_L}{30}{subsubsection.3.12.1.13}%
+\contentsline {subsubsection}{\numberline {3.12.1.14}des\_speed\_a\_H}{30}{subsubsection.3.12.1.14}%
+\contentsline {subsubsection}{\numberline {3.12.1.15}des\_speed\_a\_L}{30}{subsubsection.3.12.1.15}%
+\contentsline {subsubsection}{\numberline {3.12.1.16}des\_speed\_b\_H}{30}{subsubsection.3.12.1.16}%
+\contentsline {subsubsection}{\numberline {3.12.1.17}des\_speed\_b\_L}{30}{subsubsection.3.12.1.17}%
+\contentsline {subsubsection}{\numberline {3.12.1.18}max\_current\_H}{30}{subsubsection.3.12.1.18}%
+\contentsline {subsubsection}{\numberline {3.12.1.19}max\_current\_L}{31}{subsubsection.3.12.1.19}%
+\contentsline {subsubsection}{\numberline {3.12.1.20}mode\_reg}{31}{subsubsection.3.12.1.20}%
+\contentsline {subsubsection}{\numberline {3.12.1.21}position\_a\_H}{31}{subsubsection.3.12.1.21}%
+\contentsline {subsubsection}{\numberline {3.12.1.22}position\_a\_L}{31}{subsubsection.3.12.1.22}%
+\contentsline {subsubsection}{\numberline {3.12.1.23}position\_b\_H}{31}{subsubsection.3.12.1.23}%
+\contentsline {subsubsection}{\numberline {3.12.1.24}position\_b\_L}{31}{subsubsection.3.12.1.24}%
+\contentsline {subsubsection}{\numberline {3.12.1.25}READONLY}{31}{subsubsection.3.12.1.25}%
+\contentsline {subsubsection}{\numberline {3.12.1.26}REGMAP\_SIZE}{32}{subsubsection.3.12.1.26}%
+\contentsline {subsubsection}{\numberline {3.12.1.27}remex\_state}{32}{subsubsection.3.12.1.27}%
+\contentsline {subsubsection}{\numberline {3.12.1.28}SLAVE\_ADDR}{32}{subsubsection.3.12.1.28}%
+\contentsline {subsubsection}{\numberline {3.12.1.29}switch\_states}{32}{subsubsection.3.12.1.29}%
+\contentsline {subsubsection}{\numberline {3.12.1.30}UNKNOWN\_PAR}{32}{subsubsection.3.12.1.30}%
+\contentsline {subsubsection}{\numberline {3.12.1.31}UNKNOWN\_REG}{32}{subsubsection.3.12.1.31}%
+\contentsline {subsection}{\numberline {3.12.2}Enumeration Type Documentation}{32}{subsection.3.12.2}%
+\contentsline {subsubsection}{\numberline {3.12.2.1}i2c\_states}{32}{subsubsection.3.12.2.1}%
+\contentsline {subsection}{\numberline {3.12.3}Function Documentation}{33}{subsection.3.12.3}%
+\contentsline {subsubsection}{\numberline {3.12.3.1}adc\_channel\_a()}{33}{subsubsection.3.12.3.1}%
+\contentsline {subsubsection}{\numberline {3.12.3.2}adc\_channel\_b()}{33}{subsubsection.3.12.3.2}%
+\contentsline {subsubsection}{\numberline {3.12.3.3}adc\_channel\_c()}{33}{subsubsection.3.12.3.3}%
+\contentsline {subsubsection}{\numberline {3.12.3.4}clear\_registers()}{33}{subsubsection.3.12.3.4}%
+\contentsline {subsubsection}{\numberline {3.12.3.5}init()}{33}{subsubsection.3.12.3.5}%
+\contentsline {subsubsection}{\numberline {3.12.3.6}int2str()}{33}{subsubsection.3.12.3.6}%
+\contentsline {subsubsection}{\numberline {3.12.3.7}loop()}{34}{subsubsection.3.12.3.7}%
+\contentsline {subsubsection}{\numberline {3.12.3.8}process\_cmd()}{34}{subsubsection.3.12.3.8}%
+\contentsline {subsubsection}{\numberline {3.12.3.9}receive\_cb()}{34}{subsubsection.3.12.3.9}%
+\contentsline {subsubsection}{\numberline {3.12.3.10}start\_condition\_cb()}{34}{subsubsection.3.12.3.10}%
+\contentsline {subsubsection}{\numberline {3.12.3.11}stop\_condition\_cb()}{35}{subsubsection.3.12.3.11}%
+\contentsline {subsubsection}{\numberline {3.12.3.12}transmit\_cb()}{35}{subsubsection.3.12.3.12}%
+\contentsline {section}{\numberline {3.13}uart.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c File Reference}{35}{section.3.13}%
+\contentsline {subsection}{\numberline {3.13.1}Function Documentation}{35}{subsection.3.13.1}%
+\contentsline {subsubsection}{\numberline {3.13.1.1}init\_UART()}{36}{subsubsection.3.13.1.1}%
+\contentsline {subsubsection}{\numberline {3.13.1.2}putc()}{36}{subsubsection.3.13.1.2}%
+\contentsline {subsubsection}{\numberline {3.13.1.3}puts()}{36}{subsubsection.3.13.1.3}%
+\contentsline {subsubsection}{\numberline {3.13.1.4}putsn()}{36}{subsubsection.3.13.1.4}%
+\contentsline {subsubsection}{\numberline {3.13.1.5}USCI\_A1\_ISR()}{37}{subsubsection.3.13.1.5}%
+\contentsline {section}{\numberline {3.14}uart.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h File Reference}{37}{section.3.14}%
+\contentsline {subsection}{\numberline {3.14.1}Function Documentation}{37}{subsection.3.14.1}%
+\contentsline {subsubsection}{\numberline {3.14.1.1}init\_UART()}{37}{subsubsection.3.14.1.1}%
+\contentsline {subsubsection}{\numberline {3.14.1.2}putc()}{37}{subsubsection.3.14.1.2}%
+\contentsline {subsubsection}{\numberline {3.14.1.3}puts()}{38}{subsubsection.3.14.1.3}%
+\contentsline {subsubsection}{\numberline {3.14.1.4}putsn()}{38}{subsubsection.3.14.1.4}%
+\contentsline {chapter}{Index}{39}{section*.39}%
