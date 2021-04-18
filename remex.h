@@ -14,7 +14,7 @@
 
 /************* Register addresses **********************/
 
-// Read / Write Registers
+/// Read / Write Registers
 #define command_reg        0xCC
 #define mode_reg           0x00
 #define max_current_H      0x01
@@ -31,7 +31,7 @@
 #define des_pos_b_L        0x0C
 
 #define READONLY           0x20
-// Read only Registers
+/// Read only Registers
 #define position_a_H       0x20
 #define position_a_L       0x21
 #define position_b_H       0x22
@@ -48,7 +48,7 @@
 #define REGMAP_SIZE 0x2F
 /****************************************************/
 
-// state machine states
+/// state machine states
 enum i2c_states {
     start,
     reg_set,
@@ -120,6 +120,12 @@ void init(void);
  */
 void loop(void);
 
+/**
+ * int2str will convert an integer inval and store into string str_out
+ *
+ * @param[in] inval is the integer value to be converted to a string
+ * @param[out] str_out is the output string where the string value of the integer will be written.
+ */
 void int2str(int inval, char * str_out);
 
 #endif /* REMEX_H_ */
