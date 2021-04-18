@@ -14,6 +14,12 @@ Step 5: Pull any updates in from the master branch into your repository using `g
 
 The project is designed to be adaptable to any system on the robot. The different hardware interfaces are designed such that they can be easily used by each system without the need for modification. The rest of this document will demonstrate how to use the code in this repository to develop firmware to control new robotic systems with the Remex board.
 
+### Remex
+
+The `remex.c` and `remex.h` files are the primary files for the user to edit to utilize the board. The two primary functions that should be used are the `init` function and the `loop` function. The `init` function is called once after the board has turned on and has been set to 8MHz processing. The `loop` function is then continuously called afterwards.
+
+The `remex.h` file has also defined the default register map that the I2C master uses to interface with the board. This register map along with the provided I2C slave functions `recieve_cb`, `transmit_cb`, `start_condition_cb`, and `stop_condition_cb` implement a simple I2C register map implementation that will allow an I2C master to read and write data to the slave board. This also allows the board to execute commands from the master device with the `process_cmd` function.
+
 ### Hardware IO
 
 There are two kinds of hardware I/O this board can use. First is the QEI encoder interface and the second type is the limit switch interface. The board can support up to two channels of QEI at once, or one channel of QEI and 2 limit switches at the same time. It is important to note that the second channel of QEI uses the same pins as is used for the limit switches so both cannot be initialized at the same time.
@@ -79,3 +85,7 @@ void i2c_slave_init(
 ```
 
 `i2c_slave_init` will set up the hardware to behave as an I2C slave with an address of `slave_addr`. The first four parameters of the `i2c_slave_init` function are pointers to functions that will be called at the different points of the I2C protocol. The first pointer `stt_cb` is called when the microcontroller detects the start condition. The `stp_cb` is called when the stop condition is detected. The `rx_cb` is called when the microcontroller recieves a byte of data over the i2c bus and the recieved byte is passed in as the first parameter. When the microcontroller is requested by the master to send data the `tx_cb` is called and a pointer to the byte to send data is provided. Users of the `tx_cb` function will be able to send a byte in the `tx_cb` function by setting `out` equal to the data to be sent.
+
+### Main
+
+The `main.c` should not need to be modified much by the user. The main function will set the internal clock speed of the processor to 8MHz and is responsible for calling the `init` function  and the `loop` function from `remex.h`.
