@@ -1,0 +1,178 @@
+\hypertarget{remex_8c}{}\doxysection{remex.\+c File Reference}
+\label{remex_8c}\index{remex.c@{remex.c}}
+{\ttfamily \#include $<$msp430.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}remex.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}i2c.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}pwm.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}adc.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}uart.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}hardware\+I\+O.\+h\char`\"{}}\newline
+Include dependency graph for remex.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{remex_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{remex_8c_ac23c7d934bc5bba1109eb14229554b1f}{adc\+\_\+channel\+\_\+a}} (int current)
+\item 
+void \mbox{\hyperlink{remex_8c_a2858154e2009b0e6e616f313177762bc}{init}} (void)
+\item 
+void \mbox{\hyperlink{remex_8c_a0b33edabd7f1c4e4a0bf32c67269be2f}{loop}} (void)
+\item 
+void \mbox{\hyperlink{remex_8c_a592374203785a223a2a74da96ee7ee1b}{clear\+\_\+registers}} (void)
+\item 
+void \mbox{\hyperlink{remex_8c_a3352b16f85f19c53338779c8d21a0fc1}{receive\+\_\+cb}} (const unsigned char in)
+\item 
+void \mbox{\hyperlink{remex_8c_a3c751024ff31f7074cb9f373f6578c98}{transmit\+\_\+cb}} (unsigned volatile int $\ast$out)
+\item 
+void \mbox{\hyperlink{remex_8c_ad820572d2237617a79825443be3f569a}{start\+\_\+condition\+\_\+cb}} (void)
+\item 
+void \mbox{\hyperlink{remex_8c_af40fb04a57b4b7ce34b465e36fb0ef21}{stop\+\_\+condition\+\_\+cb}} (void)
+\item 
+void \mbox{\hyperlink{remex_8c_aa89d4c2a09b933d7b63f364e9008d203}{process\+\_\+cmd}} (unsigned char cmd)
+\item 
+void \mbox{\hyperlink{remex_8c_aeefcaeb20d48ba91c0a35fdf33fe088b}{int2str}} (int inval, char $\ast$str\+\_\+out)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+unsigned char \mbox{\hyperlink{remex_8c_a2559e9147a8e5e522084226554c54ba7}{regmap}} \mbox{[}\mbox{\hyperlink{remex_8h_a459120c091bb085b64f9cf3a52f18ef5}{R\+E\+G\+M\+A\+P\+\_\+\+S\+I\+ZE}}\mbox{]} = \{ 0x00 \}
+\item 
+int \mbox{\hyperlink{remex_8c_a48650988aeb6f8fa8d86c693248a3fd4}{encoder}} = 0
+\item 
+char \mbox{\hyperlink{remex_8c_ae96dc69ce881ab6bdd180a0ef2675d61}{enc\+\_\+str}} \mbox{[}4\mbox{]}
+\item 
+unsigned char \mbox{\hyperlink{remex_8c_a1d7b6d3b02227576b00992aece354e8d}{reg}} = \mbox{\hyperlink{remex_8h_a74e7ee48654a789b06312e6e11861da4}{U\+N\+K\+N\+O\+W\+N\+\_\+\+R\+EG}}
+\item 
+enum \mbox{\hyperlink{remex_8h_acad71c93ff8ea2a7b72c84f55fb18559}{i2c\+\_\+states}} \mbox{\hyperlink{remex_8c_a2845385f55e3956c322c42a282403b61}{state}} = \mbox{\hyperlink{remex_8h_acad71c93ff8ea2a7b72c84f55fb18559a0e97c69c73117f6c0109b2d7d1d9cedc}{start}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{remex_8c_ac23c7d934bc5bba1109eb14229554b1f}\label{remex_8c_ac23c7d934bc5bba1109eb14229554b1f}} 
+\index{remex.c@{remex.c}!adc\_channel\_a@{adc\_channel\_a}}
+\index{adc\_channel\_a@{adc\_channel\_a}!remex.c@{remex.c}}
+\doxysubsubsection{\texorpdfstring{adc\_channel\_a()}{adc\_channel\_a()}}
+{\footnotesize\ttfamily void adc\+\_\+channel\+\_\+a (\begin{DoxyParamCaption}\item[{int}]{current }\end{DoxyParamCaption})}
+
+adc\+\_\+channel\+\_\+a is the call back function when the adc has finished it\textquotesingle{}s conversion and has a value. \mbox{\Hypertarget{remex_8c_a592374203785a223a2a74da96ee7ee1b}\label{remex_8c_a592374203785a223a2a74da96ee7ee1b}} 
+\index{remex.c@{remex.c}!clear\_registers@{clear\_registers}}
+\index{clear\_registers@{clear\_registers}!remex.c@{remex.c}}
+\doxysubsubsection{\texorpdfstring{clear\_registers()}{clear\_registers()}}
+{\footnotesize\ttfamily void clear\+\_\+registers (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+clear\+\_\+registers is a helper function that sets all the registers in the register map to zero. \mbox{\Hypertarget{remex_8c_a2858154e2009b0e6e616f313177762bc}\label{remex_8c_a2858154e2009b0e6e616f313177762bc}} 
+\index{remex.c@{remex.c}!init@{init}}
+\index{init@{init}!remex.c@{remex.c}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily void init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+init is called once, and initializes the registers and libraries for the board. \mbox{\Hypertarget{remex_8c_aeefcaeb20d48ba91c0a35fdf33fe088b}\label{remex_8c_aeefcaeb20d48ba91c0a35fdf33fe088b}} 
+\index{remex.c@{remex.c}!int2str@{int2str}}
+\index{int2str@{int2str}!remex.c@{remex.c}}
+\doxysubsubsection{\texorpdfstring{int2str()}{int2str()}}
+{\footnotesize\ttfamily void int2str (\begin{DoxyParamCaption}\item[{int}]{inval,  }\item[{char $\ast$}]{str\+\_\+out }\end{DoxyParamCaption})}
+
+int2str will convert an integer inval and store into string str\+\_\+out
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em inval} & is the integer value to be converted to a string \\
+\hline
+\mbox{\texttt{ out}}  & {\em str\+\_\+out} & is the output string where the string value of the integer will be written. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{remex_8c_a0b33edabd7f1c4e4a0bf32c67269be2f}\label{remex_8c_a0b33edabd7f1c4e4a0bf32c67269be2f}} 
+\index{remex.c@{remex.c}!loop@{loop}}
+\index{loop@{loop}!remex.c@{remex.c}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void loop (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+loop is called repeatedly as long as the board is powered. \mbox{\Hypertarget{remex_8c_aa89d4c2a09b933d7b63f364e9008d203}\label{remex_8c_aa89d4c2a09b933d7b63f364e9008d203}} 
+\index{remex.c@{remex.c}!process\_cmd@{process\_cmd}}
+\index{process\_cmd@{process\_cmd}!remex.c@{remex.c}}
+\doxysubsubsection{\texorpdfstring{process\_cmd()}{process\_cmd()}}
+{\footnotesize\ttfamily void process\+\_\+cmd (\begin{DoxyParamCaption}\item[{unsigned char}]{cmd }\end{DoxyParamCaption})}
+
+process\+\_\+cmd is a function that is called when a command byte is received from the master.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em cmd} & is the byte received from the master. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{remex_8c_a3352b16f85f19c53338779c8d21a0fc1}\label{remex_8c_a3352b16f85f19c53338779c8d21a0fc1}} 
+\index{remex.c@{remex.c}!receive\_cb@{receive\_cb}}
+\index{receive\_cb@{receive\_cb}!remex.c@{remex.c}}
+\doxysubsubsection{\texorpdfstring{receive\_cb()}{receive\_cb()}}
+{\footnotesize\ttfamily void receive\+\_\+cb (\begin{DoxyParamCaption}\item[{const unsigned char}]{in }\end{DoxyParamCaption})}
+
+receive\+\_\+cb is a call back function that is called when the master writes a byte.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em in} & is the byte received from the master. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{remex_8c_ad820572d2237617a79825443be3f569a}\label{remex_8c_ad820572d2237617a79825443be3f569a}} 
+\index{remex.c@{remex.c}!start\_condition\_cb@{start\_condition\_cb}}
+\index{start\_condition\_cb@{start\_condition\_cb}!remex.c@{remex.c}}
+\doxysubsubsection{\texorpdfstring{start\_condition\_cb()}{start\_condition\_cb()}}
+{\footnotesize\ttfamily void start\+\_\+condition\+\_\+cb (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+start\+\_\+condition\+\_\+cb is a callback function for when a i2c start condition is detected from the master. \mbox{\Hypertarget{remex_8c_af40fb04a57b4b7ce34b465e36fb0ef21}\label{remex_8c_af40fb04a57b4b7ce34b465e36fb0ef21}} 
+\index{remex.c@{remex.c}!stop\_condition\_cb@{stop\_condition\_cb}}
+\index{stop\_condition\_cb@{stop\_condition\_cb}!remex.c@{remex.c}}
+\doxysubsubsection{\texorpdfstring{stop\_condition\_cb()}{stop\_condition\_cb()}}
+{\footnotesize\ttfamily void stop\+\_\+condition\+\_\+cb (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+stop\+\_\+condition\+\_\+cb is a callback function for when a i2c stop condition is detected from the master. \mbox{\Hypertarget{remex_8c_a3c751024ff31f7074cb9f373f6578c98}\label{remex_8c_a3c751024ff31f7074cb9f373f6578c98}} 
+\index{remex.c@{remex.c}!transmit\_cb@{transmit\_cb}}
+\index{transmit\_cb@{transmit\_cb}!remex.c@{remex.c}}
+\doxysubsubsection{\texorpdfstring{transmit\_cb()}{transmit\_cb()}}
+{\footnotesize\ttfamily void transmit\+\_\+cb (\begin{DoxyParamCaption}\item[{unsigned volatile int $\ast$}]{out }\end{DoxyParamCaption})}
+
+transmit\+\_\+cb is a callback function that is called when the master wants to read a byte from the slave.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em the} & pointer to the transmit buffer to send a byte. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{remex_8c_ae96dc69ce881ab6bdd180a0ef2675d61}\label{remex_8c_ae96dc69ce881ab6bdd180a0ef2675d61}} 
+\index{remex.c@{remex.c}!enc\_str@{enc\_str}}
+\index{enc\_str@{enc\_str}!remex.c@{remex.c}}
+\doxysubsubsection{\texorpdfstring{enc\_str}{enc\_str}}
+{\footnotesize\ttfamily char enc\+\_\+str\mbox{[}4\mbox{]}}
+
+\mbox{\Hypertarget{remex_8c_a48650988aeb6f8fa8d86c693248a3fd4}\label{remex_8c_a48650988aeb6f8fa8d86c693248a3fd4}} 
+\index{remex.c@{remex.c}!encoder@{encoder}}
+\index{encoder@{encoder}!remex.c@{remex.c}}
+\doxysubsubsection{\texorpdfstring{encoder}{encoder}}
+{\footnotesize\ttfamily int encoder = 0}
+
+\mbox{\Hypertarget{remex_8c_a1d7b6d3b02227576b00992aece354e8d}\label{remex_8c_a1d7b6d3b02227576b00992aece354e8d}} 
+\index{remex.c@{remex.c}!reg@{reg}}
+\index{reg@{reg}!remex.c@{remex.c}}
+\doxysubsubsection{\texorpdfstring{reg}{reg}}
+{\footnotesize\ttfamily unsigned char reg = \mbox{\hyperlink{remex_8h_a74e7ee48654a789b06312e6e11861da4}{U\+N\+K\+N\+O\+W\+N\+\_\+\+R\+EG}}}
+
+\mbox{\Hypertarget{remex_8c_a2559e9147a8e5e522084226554c54ba7}\label{remex_8c_a2559e9147a8e5e522084226554c54ba7}} 
+\index{remex.c@{remex.c}!regmap@{regmap}}
+\index{regmap@{regmap}!remex.c@{remex.c}}
+\doxysubsubsection{\texorpdfstring{regmap}{regmap}}
+{\footnotesize\ttfamily unsigned char regmap\mbox{[}\mbox{\hyperlink{remex_8h_a459120c091bb085b64f9cf3a52f18ef5}{R\+E\+G\+M\+A\+P\+\_\+\+S\+I\+ZE}}\mbox{]} = \{ 0x00 \}}
+
+\mbox{\hyperlink{remex_8c}{remex.\+c}} \mbox{\Hypertarget{remex_8c_a2845385f55e3956c322c42a282403b61}\label{remex_8c_a2845385f55e3956c322c42a282403b61}} 
+\index{remex.c@{remex.c}!state@{state}}
+\index{state@{state}!remex.c@{remex.c}}
+\doxysubsubsection{\texorpdfstring{state}{state}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{remex_8h_acad71c93ff8ea2a7b72c84f55fb18559}{i2c\+\_\+states}} state = \mbox{\hyperlink{remex_8h_acad71c93ff8ea2a7b72c84f55fb18559a0e97c69c73117f6c0109b2d7d1d9cedc}{start}}}
+

@@ -1,0 +1,48 @@
+\hypertarget{i2c_8c}{}\doxysection{i2c.\+c File Reference}
+\label{i2c_8c}\index{i2c.c@{i2c.c}}
+{\ttfamily \#include $<$msp430.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}i2c.\+h\char`\"{}}\newline
+Include dependency graph for i2c.\+c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=204pt]{i2c_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{i2c_8c_a80c002e1f7a59ece6fb2a20e2b20c506}{i2c\+\_\+slave\+\_\+init}} (void($\ast$stt\+\_\+cb)(void), void($\ast$stp\+\_\+cb)(void), void($\ast$rx\+\_\+cb)(unsigned char in), void($\ast$tx\+\_\+cb)(unsigned volatile int $\ast$out), unsigned char slave\+\_\+addr)
+\item 
+\+\_\+\+\_\+interrupt void \mbox{\hyperlink{i2c_8c_abaef97ca3f537dd68019ae4d3b96d552}{U\+S\+C\+I\+B0\+\_\+\+I\+SR}} (void)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{i2c_8c_a80c002e1f7a59ece6fb2a20e2b20c506}\label{i2c_8c_a80c002e1f7a59ece6fb2a20e2b20c506}} 
+\index{i2c.c@{i2c.c}!i2c\_slave\_init@{i2c\_slave\_init}}
+\index{i2c\_slave\_init@{i2c\_slave\_init}!i2c.c@{i2c.c}}
+\doxysubsubsection{\texorpdfstring{i2c\_slave\_init()}{i2c\_slave\_init()}}
+{\footnotesize\ttfamily void i2c\+\_\+slave\+\_\+init (\begin{DoxyParamCaption}\item[{void($\ast$)(void)}]{stt\+\_\+cb,  }\item[{void($\ast$)(void)}]{stp\+\_\+cb,  }\item[{void($\ast$)(unsigned char in)}]{rx\+\_\+cb,  }\item[{void($\ast$)(unsigned volatile int $\ast$out)}]{tx\+\_\+cb,  }\item[{unsigned char}]{slave\+\_\+addr }\end{DoxyParamCaption})}
+
+i2c\+\_\+slave\+\_\+init will initialize the i2c bus and set the device address.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em stt\+\_\+cb} & function pointer to be called when a i2c start condition is detected \\
+\hline
+\mbox{\texttt{ in}}  & {\em stp\+\_\+cb} & function pointer to be called when a i2c stop condition is detected \\
+\hline
+\mbox{\texttt{ in}}  & {\em rx\+\_\+cb} & function pointer to be called when i2c byte is received from master \\
+\hline
+\mbox{\texttt{ in}}  & {\em tx\+\_\+cb} & function pointer to be called to send i2c byte to master \\
+\hline
+\mbox{\texttt{ in}}  & {\em slave\+\_\+addr} & is the desired device address. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{i2c_8c_abaef97ca3f537dd68019ae4d3b96d552}\label{i2c_8c_abaef97ca3f537dd68019ae4d3b96d552}} 
+\index{i2c.c@{i2c.c}!USCIB0\_ISR@{USCIB0\_ISR}}
+\index{USCIB0\_ISR@{USCIB0\_ISR}!i2c.c@{i2c.c}}
+\doxysubsubsection{\texorpdfstring{USCIB0\_ISR()}{USCIB0\_ISR()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+interrupt void U\+S\+C\+I\+B0\+\_\+\+I\+SR (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
