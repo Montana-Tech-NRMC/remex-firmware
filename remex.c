@@ -34,31 +34,26 @@ void adc_channel_a(int current) {
 void init(void)
 {
     clear_registers();
-    //i2c_slave_init(start_condition_cb, stop_condition_cb, receive_cb, transmit_cb, SLAVE_ADDR);
+    i2c_slave_init(start_condition_cb, stop_condition_cb, onI2CByteReceived, transmit_cb, SLAVE_ADDR);
     init_PWM_A();
     init_PWM_B();
+    //init_ADC();
+    //init_switches();
     init_UART();
     __bis_SR_register(GIE); // Enable global interrupts
 	init_encoders(0, &encoder);
 
+	// Turn on proof of life LED.
     P4DIR |= BIT7;
     P4OUT |= BIT7;
 
     // Disable GPIO High impedance.
     PM5CTL0 &=~ LOCKLPM5;
-
-    set_PWM_A(2500);
-    set_PWM_B(3500);
-
-    char* greeting = "Hello\n";
-
-    puts(greeting);
 }
 
 // code within loop repeats continually.
 void loop(void)
 {
-    puts("AAA");
 }
 
 void clear_registers(void)
@@ -70,10 +65,10 @@ void clear_registers(void)
 }
 
 // This function is called in an interrupt. Do not stall
-void receive_cb(const unsigned char in)
+void onI2CByteReceived(const unsigned char in)
 {
     switch(state) {
-    case start:
+    case stop:
         reg = in;
         if (reg == command_reg) {
             state = cmd_byte;
@@ -82,7 +77,7 @@ void receive_cb(const unsigned char in)
         }
         break;
     case reg_set:
-        if (reg < REGMAP_SIZE) {
+        if (reg < READONLY) {
             regmap[reg] = in;
             reg++;
         }
@@ -90,25 +85,23 @@ void receive_cb(const unsigned char in)
     case cmd_byte:
         process_cmd(in);
         break;
+    default:
+        __no_operation();
     }
 }
 
 // This function is called in an interrupt. Do not stall
 void transmit_cb(unsigned volatile int *out)
 {
-    switch(state) {
-    case start:
-        if (reg < REGMAP_SIZE) {
-            *out = regmap[reg];
-        } else {
-            *out = 0xff;
-        }
+    if (reg < REGMAP_SIZE) {
+        *out = regmap[reg];
+    } else {
+        *out = 0xff;
+    }
 
-        reg++;
-        if (reg >= REGMAP_SIZE) {
-            reg = 0;
-        }
-        break;
+    reg++;
+    if (reg >= REGMAP_SIZE) {
+        reg = 0;
     }
 }
 
@@ -127,15 +120,19 @@ void stop_condition_cb(void)
 // This function is called in an interrupt. Do not stall.
 void process_cmd(unsigned char cmd)
 {
-    //find the desired speed and clicks in the register map.
-    /*
-    int speedA = (int) (regmap[des_speed_a_L] + (regmap[des_speed_a_H] << 8));
-    int speedB = (int) (regmap[des_speed_b_L] + (regmap[des_speed_b_H] << 8));
-    int destA = (int) (regmap[des_pos_a_L] + (regmap[des_pos_a_H] << 8));
-    int destB = (int) (regmap[des_pos_b_L] + (regmap[des_pos_b_H] << 8));
-    */
-    // start pid control to move motors to desired positions.
-    //pid_control(speedA, speedB, destA, destB);
+    if (cmd == 0xa5) {
+        //find the desired speed and clicks in the register map.
+        int speedA = (int) (regmap[des_speed_a_L] + (regmap[des_speed_a_H] << 8));
+        /*
+        int speedB = (int) (regmap[des_speed_b_L] + (regmap[des_speed_b_H] << 8));
+        int destA = (int) (regmap[des_pos_a_L] + (regmap[des_pos_a_H] << 8));
+        int destB = (int) (regmap[des_pos_b_L] + (regmap[des_pos_b_H] << 8));
+        */
+
+        set_PWM_A(speedA);
+        // start pid control to move motors to desired positions.
+        //pid_control(speedA, speedB, destA, destB);
+    }
 }
 
 void int2str(int inval, char * str_out){

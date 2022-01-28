@@ -15,7 +15,7 @@
 
 #include <adc.h>
 
-void setup_ADC(void (*cba)(int), void (*cbb)(int), void (*cbc)(int)) {
+void init_ADC(void (*cba)(int), void (*cbb)(int), void (*cbc)(int)) {
     // Configure ADC A1 and A0 pin
     P1SEL0 |= BIT1 + BIT0; // P1.0 & 1.1
     P1SEL1 |= BIT1 + BIT0;
