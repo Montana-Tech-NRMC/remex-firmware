@@ -9,6 +9,7 @@
 #include "adc.h"
 #include "uart.h"
 #include "hardwareIO.h"
+#include "i2c_memory_map.h"
 
 /**
  * remex.c
@@ -17,36 +18,34 @@
 // Must have definition. regmap is set in the init method
 unsigned char regmap[REGMAP_SIZE] = { 0x00 };
 
-int encoder = 0;
-char enc_str[4];
+enum remex_states remex;
 
-//////////// Global Vars //////////////////
-unsigned char reg = UNKNOWN_REG;
-enum i2c_states state = start;
-///////////////////////////////////////////
+int speedA = 0;
 
 void adc_channel_a(int current) {
-    volatile int foo = current;
+    regmap[ADC_A_L] = current & 0xFF; // low byte
+    regmap[ADC_A_H] = current >> 8;   // high byte
     return;
+}
+
+void init_timer() {
+    TB1CCTL0 |= CCIE;                // TBCCR0 Interrupt Enabled
+    TB1CCR0 = 50000;
+    TB1CTL = TBSSEL__SMCLK | MC__UP | ID_3; // Use the SMCLCK in Up Mode
 }
 
 // init is called once at the beginning of operation.
 void init(void)
 {
     clear_registers();
-    i2c_slave_init(start_condition_cb, stop_condition_cb, onI2CByteReceived, transmit_cb, SLAVE_ADDR);
+    i2c_slave_init(onI2CStartBit, onI2CStopBit, onI2CByteReceived, onI2CByteTransmit, SLAVE_ADDR);
+    init_i2c_memory_map(&regmap, onI2CCommand);
     init_PWM_A();
-    init_PWM_B();
-    //init_ADC();
-    //init_switches();
-    init_UART();
     __bis_SR_register(GIE); // Enable global interrupts
-	init_encoders(0, &encoder);
 
 	// Turn on proof of life LED.
     P4DIR |= BIT7;
     P4OUT |= BIT7;
-
     // Disable GPIO High impedance.
     PM5CTL0 &=~ LOCKLPM5;
 }
@@ -54,6 +53,35 @@ void init(void)
 // code within loop repeats continually.
 void loop(void)
 {
+    switch(remex) {
+    case run:
+        break;
+    case halt:
+        break;
+    case error:
+        break;
+    case finished:
+        break;
+    }
+}
+
+// This function is called in an interrupt. Do not stall.
+void onI2CCommand(unsigned const char cmd)
+{
+    if (cmd == 0xa5) {
+        remex = start;
+        //find the desired speed and clicks in the register map.
+        int speedA = (int) (regmap[DES_SPEED_A_L] + (regmap[DES_SPEED_A_H] << 8));
+
+        /*
+        int speedB = (int) (regmap[des_speed_b_L] + (regmap[des_speed_b_H] << 8));
+        int destA = (int) (regmap[des_pos_a_L] + (regmap[des_pos_a_H] << 8));
+        int destB = (int) (regmap[des_pos_b_L] + (regmap[des_pos_b_H] << 8));
+        */
+        set_PWM_A(speedA);
+        // start pid control to move motors to desired positions.
+        //pid_control(speedA, speedB, destA, destB);
+    }
 }
 
 void clear_registers(void)
@@ -61,77 +89,6 @@ void clear_registers(void)
     unsigned int i;
     for (i = REGMAP_SIZE - 1; i > 0; i--) {
         regmap[i] = 0x00;
-    }
-}
-
-// This function is called in an interrupt. Do not stall
-void onI2CByteReceived(const unsigned char in)
-{
-    switch(state) {
-    case stop:
-        reg = in;
-        if (reg == command_reg) {
-            state = cmd_byte;
-        } else {
-            state = reg_set;
-        }
-        break;
-    case reg_set:
-        if (reg < READONLY) {
-            regmap[reg] = in;
-            reg++;
-        }
-        break;
-    case cmd_byte:
-        process_cmd(in);
-        break;
-    default:
-        __no_operation();
-    }
-}
-
-// This function is called in an interrupt. Do not stall
-void transmit_cb(unsigned volatile int *out)
-{
-    if (reg < REGMAP_SIZE) {
-        *out = regmap[reg];
-    } else {
-        *out = 0xff;
-    }
-
-    reg++;
-    if (reg >= REGMAP_SIZE) {
-        reg = 0;
-    }
-}
-
-// This function is called in an interrupt. Do not stall.
-void start_condition_cb(void)
-{
-    state = start;
-}
-
-// This function is called in an interrupt. Do not stall.
-void stop_condition_cb(void)
-{
-    state = stop;
-}
-
-// This function is called in an interrupt. Do not stall.
-void process_cmd(unsigned char cmd)
-{
-    if (cmd == 0xa5) {
-        //find the desired speed and clicks in the register map.
-        int speedA = (int) (regmap[des_speed_a_L] + (regmap[des_speed_a_H] << 8));
-        /*
-        int speedB = (int) (regmap[des_speed_b_L] + (regmap[des_speed_b_H] << 8));
-        int destA = (int) (regmap[des_pos_a_L] + (regmap[des_pos_a_H] << 8));
-        int destB = (int) (regmap[des_pos_b_L] + (regmap[des_pos_b_H] << 8));
-        */
-
-        set_PWM_A(speedA);
-        // start pid control to move motors to desired positions.
-        //pid_control(speedA, speedB, destA, destB);
     }
 }
 
@@ -147,3 +104,12 @@ void int2str(int inval, char * str_out){
             str_out[3-c]='A'+(nval-0x0A);
     }
 }
+
+// Timer B0 interrupt service routine
+#pragma vector = TIMER1_B0_VECTOR
+__interrupt void Timer_B_1 (void)
+{
+    read_adc(CHANNEL_A);
+}
+
+
