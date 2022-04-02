@@ -9,15 +9,15 @@
 #include "pwm.h"
 void init_PWM_A() {
     P1DIR |= PWMPINA;            //set pin 1.6 to output direction
-    P1SEL1 |= PWMPINA;            //select pin 1.6 as PWM output
-    TB0CCTL1 = OUTMOD_7;
+    P1SEL1 |= PWMPINA;           //select pin 1.6 as PWM output
+    TB0CCTL1 = OUTMOD_7;         //ccr1 set/reset
     init_clk_src();
 }
 
 void init_PWM_B() {
     P1DIR |= PWMPINB;            //set pin 1.7 to output direction
-    P1SEL1 |= PWMPINB;            //select pin 1.7 as PWM output
-    TB0CCTL2 = OUTMOD_7;
+    P1SEL1 |= PWMPINB;           //select pin 1.7 as PWM output
+    TB0CCTL2 = OUTMOD_7;         //ccr2 set/reset
     init_clk_src();
 }
 
@@ -29,7 +29,6 @@ void set_PWM_A(const int in) {
     }else{
         TB0CCR1 = in;               //period in microseconds that the power is ON.
     }
-
 }
 
 void set_PWM_B(const int in) {
