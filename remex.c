@@ -34,6 +34,8 @@ void init_timer() {
     TB1CTL = TBSSEL__SMCLK | MC__UP | ID_3; // Use the SMCLCK in Up Mode
 }
 
+unsigned int positionA;
+
 // init is called once at the beginning of operation.
 void init(void)
 {
@@ -41,6 +43,7 @@ void init(void)
     i2c_slave_init(onI2CStartBit, onI2CStopBit, onI2CByteReceived, onI2CByteTransmit, SLAVE_ADDR);
     init_i2c_memory_map(&regmap, onI2CCommand);
     init_PWM_A();
+    init_encoders(&positionA, 0);
     __bis_SR_register(GIE); // Enable global interrupts
 
 	// Turn on proof of life LED.
@@ -53,16 +56,11 @@ void init(void)
 // code within loop repeats continually.
 void loop(void)
 {
-    switch(remex) {
-    case run:
-        break;
-    case halt:
-        break;
-    case error:
-        break;
-    case finished:
-        break;
+    if (positionA > 1000 && positionA < 1500) {
+        set_PWM_A(3000);
     }
+    regmap[POSITION_A_L] = (char) positionA & 0xFF;
+    regmap[POSITION_A_H] = (char) positionA >> 8;
 }
 
 // This function is called in an interrupt. Do not stall.
@@ -89,19 +87,6 @@ void clear_registers(void)
     unsigned int i;
     for (i = REGMAP_SIZE - 1; i > 0; i--) {
         regmap[i] = 0x00;
-    }
-}
-
-void int2str(int inval, char * str_out){
-    char nval;
-    int c;
-    for (c=0;c<4;c++){
-        nval=inval&0x0F;
-        inval>>=4;
-        if (nval<=0x09)
-            str_out[3-c]=0x30+nval;
-        else
-            str_out[3-c]='A'+(nval-0x0A);
     }
 }
 

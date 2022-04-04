@@ -55,12 +55,4 @@ void loop(void);
  */
 void clear_registers(void);
 
-/**
- * int2str will convert an integer inval and store into string str_out
- *
- * @param[in] inval is the integer value to be converted to a string
- * @param[out] str_out is the output string where the string value of the integer will be written.
- */
-void int2str(int inval, char * str_out);
-
 #endif /* REMEX_H_ */
