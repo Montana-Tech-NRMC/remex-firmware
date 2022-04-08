@@ -59,8 +59,8 @@ void loop(void)
     if (positionA > 1000 && positionA < 1500) {
         set_PWM_A(3000);
     }
-    regmap[POSITION_A_L] = (char) positionA & 0xFF;
-    regmap[POSITION_A_H] = (char) positionA >> 8;
+    regmap[POSITION_A_L] = (char) (positionA & 0xFF);
+    regmap[POSITION_A_H] = (char) (positionA >> 8);
 }
 
 // This function is called in an interrupt. Do not stall.
