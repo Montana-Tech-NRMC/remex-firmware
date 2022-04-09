@@ -9,7 +9,7 @@
  * @param[in] count_b integer pointer that should be updated from hardware interrupts for secondary encoder
  * if pointer is 0 then do not initialize encoder.
  */
-void init_encoders(int* count_a, int* count_b);
+void init_encoders(unsigned int* count_a, unsigned int* count_b);
 
 /**
  * init_switches will initialize hardware interrupts to read limit switches or buttons.

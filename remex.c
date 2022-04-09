@@ -43,7 +43,7 @@ void init(void)
     i2c_slave_init(onI2CStartBit, onI2CStopBit, onI2CByteReceived, onI2CByteTransmit, SLAVE_ADDR);
     init_i2c_memory_map(&regmap, onI2CCommand);
     init_PWM_A();
-    init_encoders(&positionA, 0);
+    init_encoders(((unsigned int *)&regmap[POSITION_A_L]), 0);
     __bis_SR_register(GIE); // Enable global interrupts
 
 	// Turn on proof of life LED.
@@ -56,11 +56,8 @@ void init(void)
 // code within loop repeats continually.
 void loop(void)
 {
-    if (positionA > 1000 && positionA < 1500) {
-        set_PWM_A(3000);
-    }
-    regmap[POSITION_A_L] = (char) (positionA & 0xFF);
-    regmap[POSITION_A_H] = (char) (positionA >> 8);
+    //regmap[POSITION_A_H] = positionA >> 8;
+    //regmap[POSITION_A_L] = positionA & 0xff;
 }
 
 // This function is called in an interrupt. Do not stall.
@@ -80,6 +77,8 @@ void onI2CCommand(unsigned const char cmd)
         // start pid control to move motors to desired positions.
         //pid_control(speedA, speedB, destA, destB);
     }
+
+    if (cmd == 0xb0) {}
 }
 
 void clear_registers(void)
