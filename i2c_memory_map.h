@@ -61,7 +61,7 @@ enum i2c_states {
  *
  * @param[in] is the pointer to the start of the i2c register map.
  */
-void init_i2c_memory_map(unsigned char* map_start, void (*process_cmd)(unsigned const char));
+void init_i2c_memory_map(unsigned char * map_start, void (*process_cmd)(unsigned const char));
 
 /**
  * onI2CByteRecieved is a call back function that is called when the master writes a byte.

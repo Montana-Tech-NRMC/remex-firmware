@@ -17,7 +17,7 @@ enum i2c_states state;
 
 void (*process_cmd) (unsigned const char);
 
-void init_i2c_memory_map(unsigned char* map_start, void (*cmd_callback)(unsigned const char)) {
+void init_i2c_memory_map(unsigned char * map_start, void (*cmd_callback)(unsigned const char)) {
     regmap_local = map_start;
     state = start;
     reg = UNKNOWN_REG;
