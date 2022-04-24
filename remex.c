@@ -51,6 +51,7 @@ void init(void)
     init_PWM_A();
     init_encoders(&positionA, 0);
     init_switches(switch_cb, 0);
+//  init_encoders(((unsigned int *)&regmap[POSITION_A_L]), 0);
     __bis_SR_register(GIE); // Enable global interrupts
 
 	// Turn on proof of life LED.
@@ -63,6 +64,7 @@ void init(void)
 // code within loop repeats continually.
 void loop(void)
 {
+<<<<<<< HEAD
     int diff;
     int gainx;
     if (positionA > 1000 && positionA < 1500) {
@@ -81,6 +83,10 @@ void loop(void)
         gainx = pval;
         set_PWM_A(gainx);
     }
+=======
+    //regmap[POSITION_A_H] = positionA >> 8;
+    //regmap[POSITION_A_L] = positionA & 0xff;
+>>>>>>> 2744f101b7c5836f4677196c7d52f10cceaed50c
 }
 
 // This function is called in an interrupt. Do not stall.
@@ -100,6 +106,8 @@ void onI2CCommand(unsigned const char cmd)
         // start pid control to move motors to desired positions.
         //pid_control(speedA, speedB, destA, destB);
     }
+
+    if (cmd == 0xb0) {}
 }
 
 void clear_registers(void)

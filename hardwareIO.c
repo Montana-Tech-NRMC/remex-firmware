@@ -8,7 +8,7 @@
 #include <msp430.h>
 #include "hardwareIO.h"
 
-int *__count_a = 0, *__count_b = 0;
+unsigned int *__count_a = 0, *__count_b = 0;
 void (*switch_a_cb)(int) = 0L;
 void (*switch_b_cb)(int) = 0L;
 
@@ -39,12 +39,10 @@ void init_switches(void (*switch_a)(int), void (*switch_b)(int))
     }
 }
 
-void init_encoders(int* count_a, int* count_b)
+void init_encoders(unsigned int* count_a, unsigned int* count_b)
 {
     if (count_a) {
         P2DIR &=~(BIT2 | BIT3); // Set PIN 2.2 and 2.3 as input direction
-        //P2OUT |= (BIT2 | BIT3); // Set PIN 2.2 and 2.3 as pull up resistors (active low)
-        //P2REN |= (BIT2 | BIT3); // Enable pulling resistors on 2.2 and 2.3
         P2IES |= (BIT3); // 2.2 on Hi/low edge
         P2IE  |= (BIT3); // Enable Interrupt on 2.2
 
@@ -55,8 +53,6 @@ void init_encoders(int* count_a, int* count_b)
         P2DIR &=~(BIT5 | BIT6); // Set PIN 2.5 and 2.6 as input direction
         P2SEL0 &=~ BIT6;
         P2SEL1 &=~ BIT6;
-        //P2REN |= (BIT4 | BIT5); // Enable pulling resistors on 2.4 and 2.5
-        //P2OUT |= (BIT4 | BIT5); // Set PIN 2.2 and 2.3 as pull up resistors (active low)
         P2IFG &=~ (BIT5);
         P2IE  |= (BIT5); // Enable Interrupt on 2.4
         P2IES |= (BIT5); // 2.5
