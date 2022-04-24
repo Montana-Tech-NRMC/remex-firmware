@@ -64,7 +64,6 @@ void init(void)
 // code within loop repeats continually.
 void loop(void)
 {
-<<<<<<< HEAD
     int diff;
     int gainx;
     if (positionA > 1000 && positionA < 1500) {
@@ -83,10 +82,6 @@ void loop(void)
         gainx = pval;
         set_PWM_A(gainx);
     }
-=======
-    //regmap[POSITION_A_H] = positionA >> 8;
-    //regmap[POSITION_A_L] = positionA & 0xff;
->>>>>>> 2744f101b7c5836f4677196c7d52f10cceaed50c
 }
 
 // This function is called in an interrupt. Do not stall.
