@@ -22,23 +22,27 @@ void init_PWM_B() {
 }
 
 void set_PWM_A(const int in) {
-    if(in > MAX){
-        TB0CCR1 = MAX;
-    }else if(in < MIN){
-        TB0CCR1 = MIN;
-    }else{
-        TB0CCR1 = in;               //period in microseconds that the power is ON.
+    int inx = in;
+    if(in > 100){
+        inx = 100;
     }
+    if(in < -100){
+        inx = -100;
+    }
+    int out = 10 * inx + 3000;
+    TB0CCR1 = out;               //period in microseconds that the power is ON.
 }
 
 void set_PWM_B(const int in) {
-    if(in > MAX){
-        TB0CCR2 = MAX;
-    }else if(in < MIN){
-        TB0CCR2 = MIN;
-    }else{
-        TB0CCR2 = in;               //period in microseconds that the power is ON.
+    int inx = in;
+    if(in > 100){
+        inx = 100;
     }
+    if(in < -100){
+        inx = -100;
+    }
+    int out = 10 * inx + 3000;
+    TB0CCR2 = out;
 }
 
 void init_clk_src(){

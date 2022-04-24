@@ -9,7 +9,7 @@
 #define REMEX_H_
 
 enum remex_states {
-    run,
+    goTo,
     halt,
     error,
     finished,

@@ -16,8 +16,10 @@ void init_switches(void (*switch_a)(int), void (*switch_b)(int))
 {
     if (switch_a) {
         P2DIR &=~(BIT6);  // Set PIN 2.4 as input
-        P2OUT |= (BIT6);  // Set PIN 2.4 pull up resistor (active low)
-        P2REN |= (BIT6);  // Enable PIN 2.4 pulling resistor
+        P2SEL0 &=~ BIT6;
+        P2SEL1 &=~ BIT6;
+        //P2OUT |= (BIT6);  // Set PIN 2.4 pull up resistor (active low)
+        //P2REN |= (BIT6);  // Enable PIN 2.4 pulling resistor
         P2IES |= (BIT6);  // PIN 2.4 hi/low edge
         P2IE  |= (BIT6);  // PIN 2.4 enable interrupt
 
@@ -27,8 +29,8 @@ void init_switches(void (*switch_a)(int), void (*switch_b)(int))
 
     if (switch_b) {
         P2DIR &=~(BIT5);  // Set PIN 2.4 as input
-        P2OUT |= (BIT5);  // Set PIN 2.4 pull up resistor (active low)
-        P2REN |= (BIT5);  // Enable PIN 2.4 pulling resistor
+        //P2OUT |= (BIT5);  // Set PIN 2.4 pull up resistor (active low)
+        //P2REN |= (BIT5);  // Enable PIN 2.4 pulling resistor
         P2IES |= (BIT5);  // PIN 2.4 hi/low edge
         P2IE  |= (BIT5);  // PIN 2.4 enable interrupt
 
