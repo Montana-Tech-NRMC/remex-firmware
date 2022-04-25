@@ -3,6 +3,7 @@
  * Code Owner: Justin Bak
  */
 #include <msp430.h>
+#include <math.h>
 #include "remex.h"
 #include "i2c.h"
 #include "pwm.h"
@@ -11,12 +12,41 @@
 #include "hardwareIO.h"
 #include "i2c_memory_map.h"
 
+#define RING_BUF_SIZE 10
+
 /**
  * remex.c
  */
 /////// Global Vars /////
-int pval, ival, dval, deadZone;
+
+static const int deadZone = 100;
+static const int gainxMult = 1;
+static const int gainxDiv = 100;
+static const int intxMult = 1;
+static const int intxDiv = 10;
+
+int integrator_ring_buf[RING_BUF_SIZE];
+unsigned int integrator_ptr = 0;
 /////////////////////////
+
+void pushIntegratorVal(int val) {
+    integrator_ring_buf[integrator_ptr] = (val / RING_BUF_SIZE);
+    integrator_ptr++;
+    if (integrator_ptr >= RING_BUF_SIZE) {
+        integrator_ptr = 0;
+    }
+}
+
+int integratorRollingAverage() {
+    int sum = 0;
+    unsigned int i;
+    for (i = RING_BUF_SIZE; i != 0; i--) {
+        sum += integrator_ring_buf[i-1];
+    }
+    return sum;
+}
+
+
 
 // Must have definition. regmap is set in the init method
 unsigned char regmap[REGMAP_SIZE] = { 0x00 };
@@ -59,28 +89,43 @@ void init(void)
     P4OUT |= BIT7;
     // Disable GPIO High impedance.
     PM5CTL0 &=~ LOCKLPM5;
+
 }
 
 // code within loop repeats continually.
 void loop(void)
 {
+    int pval, ival, dval;
+    int out;
     int diff;
-    int gainx;
-    if (positionA > 1000 && positionA < 1500) {
-        set_PWM_A(3000);
-    }
-    regmap[POSITION_A_L] = (char) (positionA & 0xFF);
-    regmap[POSITION_A_H] = (char) (positionA >> 8);
-    int currentPosition = (regmap[POSITION_A_H] << 8) + regmap[POSITION_A_L];
-    int desiredPosition = (regmap[DES_POS_A_H] << 8) + regmap[DES_POS_A_L];
 
-    diff = (currentPosition - desiredPosition);
-    if (diff >= deadZone || diff <= deadZone) {
-        remex = halt;
-    } else {
-        pval = diff;
-        gainx = pval;
-        set_PWM_A(gainx);
+    /*
+    if (positionA > 1000 && positionA < 1500) {
+        set_PWM_A(0);
+    }
+    */
+    if (remex == goTo) {
+        regmap[POSITION_A_L] = (char) (positionA & 0xFF);
+        regmap[POSITION_A_H] = (char) (positionA >> 8);
+        int currentPosition = (regmap[POSITION_A_H] << 8) + regmap[POSITION_A_L];
+        int desiredPosition = (regmap[DES_POS_A_H] << 8) + regmap[DES_POS_A_L];
+
+        diff = (desiredPosition - currentPosition);
+        pushIntegratorVal(diff);
+        ival = integratorRollingAverage();
+        if (abs(diff) <= abs(deadZone)) {
+            //TODO: Set a state machine loop that will acknowledge this
+            remex = halt;
+            set_PWM_A(0);
+        } else {
+            pval = diff;
+            pval *= gainxMult;
+            pval /= gainxDiv;
+            ival *= intxMult;
+            ival /= intxDiv;
+            out = pval + ival;
+            set_PWM_A(out);
+        }
     }
 }
 
@@ -90,14 +135,11 @@ void onI2CCommand(unsigned const char cmd)
     if (cmd == 0xa5) {
         remex = goTo;
         //find the desired speed and clicks in the register map.
-        int speedA = (int) (regmap[DES_SPEED_A_L] + (regmap[DES_SPEED_A_H] << 8));
+        //int desiredPos = (int) (regmap[DES_POS_A_L] + (regmap[DES_POS_A_H] << 8));
+        //int currentPos = (int) (regmap[POSITION_A_L] + (regmap[POSITION_A_H] << 8));
+        //int speedA = (int) (regmap[DES_SPEED_A_L] + (regmap[DES_SPEED_A_H] << 8));
 
-        /*
-        int speedB = (int) (regmap[des_speed_b_L] + (regmap[des_speed_b_H] << 8));
-        int destA = (int) (regmap[des_pos_a_L] + (regmap[des_pos_a_H] << 8));
-        int destB = (int) (regmap[des_pos_b_L] + (regmap[des_pos_b_H] << 8));
-        */
-        set_PWM_A(speedA);
+        //set_PWM_A(speedA);
         // start pid control to move motors to desired positions.
         //pid_control(speedA, speedB, destA, destB);
     }
