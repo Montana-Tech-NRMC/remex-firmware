@@ -12,6 +12,7 @@ enum remex_states {
     goTo,
     halt,
     error,
+    zero,
     finished,
 };
 

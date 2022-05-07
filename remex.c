@@ -19,7 +19,7 @@
  */
 /////// Global Vars /////
 
-static const int deadZone = 100;
+static const int deadZone = 5;
 static const int gainxMult = 1;
 static const int gainxDiv = 100;
 static const int intxMult = 1;
@@ -66,11 +66,20 @@ void init_timer() {
     TB1CTL = TBSSEL__SMCLK | MC__UP | ID_3; // Use the SMCLCK in Up Mode
 }
 
-void switch_cb(int state) {
+void switch_cb_b(int state) {
+    remex = halt;
+    P4OUT ^= BIT7;
     set_PWM_A(0);
 }
 
-unsigned int positionA;
+void switch_cb_lower(int state) {
+    remex = halt;
+    set_PWM_A(0);
+    regmap[POSITION_A_L] = 0;
+    regmap[POSITION_A_H] = 0;
+}
+
+int positionA;
 
 // init is called once at the beginning of operation.
 void init(void)
@@ -80,7 +89,7 @@ void init(void)
     init_i2c_memory_map(&regmap, onI2CCommand);
     init_PWM_A();
     init_encoders(&positionA, 0);
-    init_switches(switch_cb, 0);
+    init_switches(switch_cb_lower, switch_cb_b);
 //  init_encoders(((unsigned int *)&regmap[POSITION_A_L]), 0);
     __bis_SR_register(GIE); // Enable global interrupts
 
@@ -127,24 +136,44 @@ void loop(void)
             set_PWM_A(out);
         }
     }
+    if (remex == zero) {
+        set_PWM_A(-50);
+    }
+}
+
+int direction() {
+    int desiredPos = (int) (regmap[DES_POS_A_L] + (regmap[DES_POS_A_H] << 8));
+    int currentPos = (int) (regmap[POSITION_A_L] + (regmap[POSITION_A_H] << 8));
+
+    if (desiredPos > currentPos) {
+        return 1;
+    } else if (desiredPos < currentPos) {
+        return -1;
+    }
+    return 0;
 }
 
 // This function is called in an interrupt. Do not stall.
 void onI2CCommand(unsigned const char cmd)
 {
     if (cmd == 0xa5) {
-        remex = goTo;
-        //find the desired speed and clicks in the register map.
-        //int desiredPos = (int) (regmap[DES_POS_A_L] + (regmap[DES_POS_A_H] << 8));
-        //int currentPos = (int) (regmap[POSITION_A_L] + (regmap[POSITION_A_H] << 8));
-        //int speedA = (int) (regmap[DES_SPEED_A_L] + (regmap[DES_SPEED_A_H] << 8));
-
-        //set_PWM_A(speedA);
-        // start pid control to move motors to desired positions.
-        //pid_control(speedA, speedB, destA, destB);
+        int dir = direction();
+        if (P2IN & BIT4 && dir > 0) {
+            remex = halt;
+        } else if ( P2IN & BIT5 && dir < 0) {
+            remex = halt;
+        } else {
+            remex = goTo;
+        }
     }
 
-    if (cmd == 0xb0) {}
+    if (cmd == 0x2E) {
+        if (P2IN & BIT4) {
+            remex = halt;
+        } else {
+            remex = zero;
+        }
+    }
 }
 
 void clear_registers(void)

@@ -15,13 +15,13 @@ void (*switch_b_cb)(int) = 0L;
 void init_switches(void (*switch_a)(int), void (*switch_b)(int))
 {
     if (switch_a) {
-        P2DIR &=~(BIT6);  // Set PIN 2.4 as input
-        P2SEL0 &=~ BIT6;
-        P2SEL1 &=~ BIT6;
+        P2DIR &=~(BIT4);  // Set PIN 2.4 as input
+        P2SEL0 &=~ BIT4;
+        P2SEL1 &=~ BIT4;
         //P2OUT |= (BIT6);  // Set PIN 2.4 pull up resistor (active low)
         //P2REN |= (BIT6);  // Enable PIN 2.4 pulling resistor
-        P2IES |= (BIT6);  // PIN 2.4 hi/low edge
-        P2IE  |= (BIT6);  // PIN 2.4 enable interrupt
+        P2IES |= (BIT4);  // PIN 2.4 hi/low edge
+        P2IE  |= (BIT4);  // PIN 2.4 enable interrupt
 
         switch_a_cb = switch_a;
         __count_b = 0;
@@ -92,10 +92,10 @@ __interrupt void Port_2(void)
         P2IFG &=~ BIT5;
     }
 
-    if (BIT6 & P2IFG) {
+    if (BIT4 & P2IFG) {
         if (switch_b_cb) {
-            switch_b_cb((P2IN & BIT6));
+            switch_b_cb((P2IN & BIT4));
         }
-        P2IFG &=~ BIT6;
+        P2IFG &=~ BIT4;
     }
 }
