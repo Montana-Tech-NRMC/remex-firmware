@@ -8,7 +8,7 @@
 #include <msp430.h>
 #include "i2c_memory_map.h"
 
-char* regmap_local;
+unsigned char* regmap_local;
 
 //////////// Global Vars //////////////////
 unsigned char reg;
@@ -76,3 +76,13 @@ void onI2CStopBit(void)
 {
     state = stop;
 }
+
+int combineInt(unsigned int registerStart) {
+    return (int) (regmap_local[registerStart+1] << 8) + regmap_local[registerStart];
+}
+
+void splitInt(unsigned int registerStart, int value) {
+    regmap_local[registerStart] = (char) (value & 0xFF);
+    regmap_local[registerStart + 1] = (char) (value >> 8);
+}
+

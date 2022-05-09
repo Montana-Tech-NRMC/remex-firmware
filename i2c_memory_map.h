@@ -87,4 +87,22 @@ void onI2CStartBit(void);
  */
 void onI2CStopBit(void);
 
+/**
+ * combineInt will take in a register address and combine it with the adjacent address to create an int value.
+ *
+ * @param[in] registerStart register value to start on.
+ * @return    the integer resulting from the combination of the two register locations.
+ */
+int combineInt(unsigned int registerStart);
+
+
+/**
+ * splitInt will take an integer value and a memory location and will split the integer to store it in adjacent
+ * memory locations.
+ *
+ * @param[in] registerStart the register to start on.
+ * @param[in] value         the value to store.
+ */
+void splitInt(unsigned int registerStart, int value);
+
 #endif /* I2C_MEMORY_MAP_H_ */

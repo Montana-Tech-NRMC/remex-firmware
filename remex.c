@@ -46,8 +46,6 @@ int integratorRollingAverage() {
     return sum;
 }
 
-
-
 // Must have definition. regmap is set in the init method
 unsigned char regmap[REGMAP_SIZE] = { 0x00 };
 
@@ -66,13 +64,13 @@ void init_timer() {
     TB1CTL = TBSSEL__SMCLK | MC__UP | ID_3; // Use the SMCLCK in Up Mode
 }
 
-void switch_cb_b(int state) {
+void switch_cb_upper(int state) {
     remex = halt;
     P4OUT ^= BIT7;
     set_PWM_A(0);
 }
 
-void switch_cb_lower(int state) {
+void switch_cb_zero(int state) {
     remex = halt;
     set_PWM_A(0);
     regmap[POSITION_A_L] = 0;
@@ -86,11 +84,11 @@ void init(void)
 {
     clear_registers();
     i2c_slave_init(onI2CStartBit, onI2CStopBit, onI2CByteReceived, onI2CByteTransmit, SLAVE_ADDR);
-    init_i2c_memory_map(&regmap, onI2CCommand);
+    init_i2c_memory_map((unsigned char *)&regmap, onI2CCommand);
     init_PWM_A();
-    init_encoders(&positionA, 0);
-    init_switches(switch_cb_lower, switch_cb_b);
-//  init_encoders(((unsigned int *)&regmap[POSITION_A_L]), 0);
+    //init_encoders(&positionA, 0);
+    init_encoders(((unsigned int *)&regmap[POSITION_A_L]), 0);
+    init_switches(switch_cb_zero, switch_cb_upper);
     __bis_SR_register(GIE); // Enable global interrupts
 
 	// Turn on proof of life LED.
@@ -104,20 +102,18 @@ void init(void)
 // code within loop repeats continually.
 void loop(void)
 {
-    int pval, ival, dval;
+    int pval, ival, currentPosition, desiredPosition;
     int out;
     int diff;
 
-    /*
-    if (positionA > 1000 && positionA < 1500) {
-        set_PWM_A(0);
-    }
-    */
-    if (remex == goTo) {
+    switch(remex) {
+    case goTo: {
+        /*
         regmap[POSITION_A_L] = (char) (positionA & 0xFF);
         regmap[POSITION_A_H] = (char) (positionA >> 8);
-        int currentPosition = (regmap[POSITION_A_H] << 8) + regmap[POSITION_A_L];
-        int desiredPosition = (regmap[DES_POS_A_H] << 8) + regmap[DES_POS_A_L];
+        */
+        currentPosition = combineInt(POSITION_A_L);
+        desiredPosition = combineInt(DES_POS_A_L);
 
         diff = (desiredPosition - currentPosition);
         pushIntegratorVal(diff);
@@ -135,9 +131,11 @@ void loop(void)
             out = pval + ival;
             set_PWM_A(out);
         }
+        break;
     }
-    if (remex == zero) {
+    case zero:
         set_PWM_A(-50);
+        break;
     }
 }
 

@@ -56,4 +56,15 @@ void loop(void);
  */
 void clear_registers(void);
 
+/**
+ * direction will calculate which direction the desired position is relative to the current position
+ * will return 1, 0, -1.
+ * 1 -> positive direction movement
+ * 0 -> no movement (desired == current)
+ * -1 -> negative direction movement
+ *
+ * @return the direction of movement based on the desired position register relative to the current position.
+ */
+int direction();
+
 #endif /* REMEX_H_ */
