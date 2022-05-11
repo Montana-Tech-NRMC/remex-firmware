@@ -69,9 +69,9 @@ __interrupt void Port_2(void)
     if (BIT3 & P2IFG){
         if (__count_a) {
             if(!(P2IN & BIT2)) {
-                (*__count_a)++;
-            } else if (P2IN & BIT2) {
                 (*__count_a)--;
+            } else if (P2IN & BIT2) {
+                (*__count_a)++;
             }
         }
         P2IFG &=~ BIT3;

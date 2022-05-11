@@ -21,9 +21,9 @@
 
 static const int deadZone = 5;
 static const int gainxMult = 1;
-static const int gainxDiv = 100;
+static const int gainxDiv = 50;
 static const int intxMult = 1;
-static const int intxDiv = 10;
+static const int intxDiv = 5;
 
 int integrator_ring_buf[RING_BUF_SIZE];
 unsigned int integrator_ptr = 0;
@@ -64,17 +64,15 @@ void init_timer() {
     TB1CTL = TBSSEL__SMCLK | MC__UP | ID_3; // Use the SMCLCK in Up Mode
 }
 
-void switch_cb_upper(int state) {
-    remex = halt;
+void switch_cb_zero(int state) {
+    remex = zeroed;
+    splitInt(POSITION_A_L, 0);
     P4OUT ^= BIT7;
-    set_PWM_A(0);
 }
 
-void switch_cb_zero(int state) {
+void switch_cb_upper(int state) {
     remex = halt;
     set_PWM_A(0);
-    regmap[POSITION_A_L] = 0;
-    regmap[POSITION_A_H] = 0;
 }
 
 int positionA;
@@ -88,7 +86,7 @@ void init(void)
     init_PWM_A();
     //init_encoders(&positionA, 0);
     init_encoders(((unsigned int *)&regmap[POSITION_A_L]), 0);
-    init_switches(switch_cb_zero, switch_cb_upper);
+    init_switches(switch_cb_upper, switch_cb_zero);
     __bis_SR_register(GIE); // Enable global interrupts
 
 	// Turn on proof of life LED.
@@ -119,7 +117,6 @@ void loop(void)
         pushIntegratorVal(diff);
         ival = integratorRollingAverage();
         if (abs(diff) <= abs(deadZone)) {
-            //TODO: Set a state machine loop that will acknowledge this
             remex = halt;
             set_PWM_A(0);
         } else {
@@ -133,9 +130,15 @@ void loop(void)
         }
         break;
     }
-    case zero:
-        set_PWM_A(-50);
+    case zeroing:
+        set_PWM_A(-10);
         break;
+    case zeroed:
+        splitInt(DES_POS_A_L, 50);
+        remex = goTo;
+        break;
+    case halt:
+        set_PWM_A(0);
     }
 }
 
@@ -156,9 +159,9 @@ void onI2CCommand(unsigned const char cmd)
 {
     if (cmd == 0xa5) {
         int dir = direction();
-        if (P2IN & BIT4 && dir > 0) {
+        if (P2IN & BIT4 && dir < 0) {
             remex = halt;
-        } else if ( P2IN & BIT5 && dir < 0) {
+        } else if ( P2IN & BIT5 && dir > 0) {
             remex = halt;
         } else {
             remex = goTo;
@@ -169,7 +172,7 @@ void onI2CCommand(unsigned const char cmd)
         if (P2IN & BIT4) {
             remex = halt;
         } else {
-            remex = zero;
+            remex = zeroing;
         }
     }
 }

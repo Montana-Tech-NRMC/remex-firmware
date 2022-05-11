@@ -29,7 +29,7 @@ void set_PWM_A(const int in) {
     if(in < -100){
         inx = -100;
     }
-    int out = 10 * inx + 3000;
+    int out = -(10 * inx) + 3000;
     TB0CCR1 = out;               //period in microseconds that the power is ON.
 }
 
