@@ -29,6 +29,12 @@
 #define DES_POS_A_H        0x0A
 #define DES_POS_B_L        0x0B
 #define DES_POS_B_H        0x0C
+#define PID_GAIN_MULT      0x0D
+#define PID_GAIN_DIV       0x0E
+#define PID_INT_MULT       0x0F
+#define PID_INT_DIV        0x10
+#define PID_DIF_MULT       0x11
+#define PID_DIF_DIV        0x12
 
 #define READONLY           0x20
 /// Read only Registers
