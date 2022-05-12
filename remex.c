@@ -20,10 +20,7 @@
 /////// Global Vars /////
 
 static const int deadZone = 5;
-static const int gainxMult = 1;
-static const int gainxDiv = 50;
-static const int intxMult = 1;
-static const int intxDiv = 5;
+int gainxMult, gainxDiv, intxMult, intxDiv;
 
 int integrator_ring_buf[RING_BUF_SIZE];
 unsigned int integrator_ptr = 0;
@@ -89,6 +86,11 @@ void init(void)
     init_switches(switch_cb_upper, switch_cb_zero);
     __bis_SR_register(GIE); // Enable global interrupts
 
+    intxMult = 1;
+    intxDiv = 5;
+    gainxMult = 1;
+    gainxDiv = 50;
+
 	// Turn on proof of life LED.
     P4DIR |= BIT7;
     P4OUT |= BIT7;
@@ -131,7 +133,7 @@ void loop(void)
         break;
     }
     case zeroing:
-        set_PWM_A(-10);
+        set_PWM_A(-15);
         break;
     case zeroed:
         splitInt(DES_POS_A_L, 50);
@@ -157,6 +159,7 @@ int direction() {
 // This function is called in an interrupt. Do not stall.
 void onI2CCommand(unsigned const char cmd)
 {
+    // goto/begin command
     if (cmd == 0xa5) {
         int dir = direction();
         if (P2IN & BIT4 && dir < 0) {
@@ -168,12 +171,21 @@ void onI2CCommand(unsigned const char cmd)
         }
     }
 
+    // zero command
     if (cmd == 0x2E) {
         if (P2IN & BIT4) {
             remex = halt;
         } else {
             remex = zeroing;
         }
+    }
+
+    //set PID command
+    if (cmd == 5) {
+        gainxMult = regmap[PID_GAIN_MULT];
+        gainxDiv = regmap[PID_GAIN_DIV];
+        intxMult = regmap[PID_INT_MULT];
+        intxDiv = regmap[PID_INT_DIV];
     }
 }
 
