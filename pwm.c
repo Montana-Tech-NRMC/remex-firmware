@@ -7,6 +7,8 @@
  *
  */
 #include "pwm.h"
+#include "i2c_memory_map.h"
+
 void init_PWM_A() {
     P1DIR |= PWMPINA;            //set pin 1.6 to output direction
     P1SEL1 |= PWMPINA;           //select pin 1.6 as PWM output
@@ -22,11 +24,12 @@ void init_PWM_B() {
 }
 
 void set_PWM_A(const int in) {
+    int maxSpeed = combineInt(DES_SPEED_A_L);
     int inx = in;
-    if(in > 100){
+    if(in > maxSpeed){
         inx = 100;
     }
-    if(in < -100){
+    if(in < -maxSpeed){
         inx = -100;
     }
     int out = -(10 * inx) + 3000;
@@ -34,11 +37,12 @@ void set_PWM_A(const int in) {
 }
 
 void set_PWM_B(const int in) {
+    int maxSpeed = combineInt(DES_SPEED_B_L);
     int inx = in;
-    if(in > 100){
+    if(in > maxSpeed){
         inx = 100;
     }
-    if(in < -100){
+    if(in < -maxSpeed){
         inx = -100;
     }
     int out = 10 * inx + 3000;
