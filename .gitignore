@@ -7,4 +7,6 @@ Debug/
 .project
 .cproject
 .ccsproject
+html/*
+latex/*
 
