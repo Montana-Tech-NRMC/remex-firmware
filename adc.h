@@ -37,6 +37,6 @@ void read_adc(int channel);
  *  @param[in] cbb function pointer which will be called by the ADC ISR when a sample on channel B is ready
  *  @param[in] cbc function pointer which will be called by the ADC ISR when a sample on channel C is ready
  */
-void init_ADC(void (*cba)(int), void(*cbb)(int), void(*cbc)(int));
+void init_adc(void (*cba)(int), void(*cbb)(int), void(*cbc)(int));
 
 #endif /* ADC_H_ */
