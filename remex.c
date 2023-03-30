@@ -21,17 +21,42 @@ unsigned char regmap[REGMAP_SIZE] = { 0x00 };
 
 enum remex_states remex;
 
+void on_threshold_broken(int channel, int value) {
+    switch(channel) {
+        case 0:
+            P2OUT |= BIT0;
+            P2OUT &=~ (BIT1 | BIT2);
+            break;
+        case 1:
+            P2OUT |= BIT1;
+            P2OUT &=~ (BIT0 | BIT2);
+            break;
+        case 2:
+            P2OUT |= BIT0 | BIT1;
+            P2OUT &=~ BIT2;
+            break;
+        case 3:
+            P2OUT |= BIT2;
+            P2OUT &=~ (BIT1 | BIT0);
+            break;
+    }
+}
+
 // init is called once at the beginning of operation.
 void init(void)
 {
+
+    P2DIR |= BIT0 | BIT1 | BIT2;
+    P2OUT &=~ (BIT0 | BIT1 | BIT2);
+    
     clear_registers();
-    init_adc(0L, 0L, 0L);
+    init_adc(3000, on_threshold_broken);
     //i2c_slave_init(onI2CStartBit, onI2CStopBit, onI2CByteReceived, onI2CByteTransmit, SLAVE_ADDR);
     //init_i2c_memory_map((unsigned char *)&regmap, onI2CCommand);
 
     __bis_SR_register(GIE); // Enable global interrupts
 
-	// Turn on proof of life LED.
+    // Turn on proof of life LED.
     P3DIR |= BIT5;
     P3OUT |= BIT5;
     // Disable GPIO High impedance.

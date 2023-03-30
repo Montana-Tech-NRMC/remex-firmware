@@ -15,7 +15,7 @@ void i2c_slave_init(
         void (*tx_cb)(unsigned volatile int *out),
         unsigned char slave_addr)
 {
-    P1SEL0 |= SDA_PIN + SCL_PIN;             // Set i2c on pins 1.2 and 1.3 for USCIB0
+    P4SEL0 |= SDA_PIN + SCL_PIN;             // Set i2c on pins 4.6 and 4.7 for USCIB0
     UCB1CTLW0 |= UCSWRST;                    // Enable software reset
     UCB1CTLW0 |= UCMODE_3 | UCSYNC;          // I2CSlave, synchronous mode
     UCB1I2COA0 = slave_addr | UCOAEN;        // Set slave address
