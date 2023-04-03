@@ -10,7 +10,6 @@
 #include "adc.h"
 #include "uart.h"
 #include "hardwareIO.h"
-#include "i2c_memory_map.h"
 
 /**
  * remex.c
@@ -21,7 +20,7 @@ unsigned char regmap[REGMAP_SIZE] = { 0x00 };
 
 enum remex_states remex;
 
-void on_threshold_broken(int channel, int value) {
+void adc_threshold_broken(int channel, int value) {
     switch(channel) {
         case 0:
             P2OUT |= BIT0;
@@ -49,10 +48,11 @@ void init(void)
     P2DIR |= BIT0 | BIT1 | BIT2;
     P2OUT &=~ (BIT0 | BIT1 | BIT2);
     
+    P6DIR |= BIT6; // dev board Test LED light
+
     clear_registers();
-    init_adc(3000, on_threshold_broken);
-    //i2c_slave_init(onI2CStartBit, onI2CStopBit, onI2CByteReceived, onI2CByteTransmit, SLAVE_ADDR);
-    //init_i2c_memory_map((unsigned char *)&regmap, onI2CCommand);
+    init_adc(3000, adc_threshold_broken);
+    i2c_slave_init(SLAVE_ADDR, (unsigned char*)&regmap, process_i2c_command);
 
     __bis_SR_register(GIE); // Enable global interrupts
 
@@ -67,40 +67,19 @@ void init(void)
 // code within loop repeats continually.
 void loop(void)
 {
-    switch(remex) {
-    case goTo:
-        break;
-    case zeroing:
-        break;
-    case zeroed:
-        break;
-    case halt:
-        break;
-    }
 }
 
 // This function is called in an interrupt. Do not stall.
-void onI2CCommand(unsigned const char cmd)
+void process_i2c_command(unsigned const char command)
 {
     // goto/begin command
-    if (cmd == 0xa5) {
-        int dir = direction();
-        if (P2IN & BIT4 && dir < 0) {
-            remex = halt;
-        } else if ( P2IN & BIT5 && dir > 0) {
-            remex = halt;
-        } else {
-            remex = goTo;
-        }
-    }
-
-    // zero command
-    if (cmd == 0x2E) {
-        if (P2IN & BIT4) {
-            remex = halt;
-        } else {
-            remex = zeroing;
-        }
+    switch(command) {
+    case 0xa5:
+        P6OUT |= BIT6;
+        break;
+    case 0x2E:
+        P6OUT &=~ BIT6;
+        break;
     }
 }
 

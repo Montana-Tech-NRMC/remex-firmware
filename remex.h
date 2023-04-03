@@ -40,7 +40,7 @@ void adc_channel_c(int current);
  *
  * @param[in] cmd is the byte received from the master.
  */
-void onI2CCommand(unsigned const char cmd);
+void process_i2c_command(unsigned const char cmd);
 
 /**
  * init is called once, and initializes the registers and libraries for the board.

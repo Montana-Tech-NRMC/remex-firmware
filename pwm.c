@@ -7,7 +7,7 @@
  *
  */
 #include "pwm.h"
-#include "i2c_memory_map.h"
+#include "i2c.h"
 
 void init_PWM_A() {
     P1DIR |= PWMPINA;            //set pin 1.6 to output direction
