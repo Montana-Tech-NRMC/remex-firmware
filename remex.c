@@ -16,7 +16,7 @@
  */
 
 // Must have definition. regmap is set in the init method
-unsigned char regmap[REGMAP_SIZE] = { 0x00 };
+uint8_t regmap[REGMAP_SIZE] = { 0x00 };
 
 enum remex_states remex;
 
@@ -49,10 +49,11 @@ void init(void)
     P2OUT &=~ (BIT0 | BIT1 | BIT2);
     
     P6DIR |= BIT6; // dev board Test LED light
+    P6OUT &=~ BIT6; // turn off the light
 
     clear_registers();
     init_adc(3000, adc_threshold_broken);
-    i2c_slave_init(SLAVE_ADDR, (unsigned char*)&regmap, process_i2c_command);
+    i2c_slave_init(SLAVE_ADDR, (uint8_t*)&regmap, process_i2c_command);
 
     __bis_SR_register(GIE); // Enable global interrupts
 
@@ -67,10 +68,11 @@ void init(void)
 // code within loop repeats continually.
 void loop(void)
 {
+    WDTCTL = WDT_ADLY_16;
 }
 
 // This function is called in an interrupt. Do not stall.
-void process_i2c_command(unsigned const char command)
+void process_i2c_command(const uint8_t command)
 {
     // goto/begin command
     switch(command) {

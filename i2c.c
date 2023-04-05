@@ -8,16 +8,16 @@
 #include <msp430.h>
 #include "i2c.h"
 
-unsigned char* regmap_local;
-unsigned char memory_map_ptr;
+uint8_t* regmap_local;
+uint8_t memory_map_index = 0;
 enum i2c_states state;
 
-void (*command_callback)(unsigned const char) = 0L;
+void (*command_callback)(const uint8_t) = 0L;
 
 void i2c_slave_init(
         unsigned char slave_addr,
-        unsigned char* memory_start,
-        void (*command_handler)(unsigned const char)
+        uint8_t* memory_start,
+        void (*command_handler)(const uint8_t)
      )
 {
     regmap_local = memory_start;
@@ -32,32 +32,32 @@ void i2c_slave_init(
 }
 
 void transmit_byte(unsigned volatile int *out) {
-    if (memory_map_ptr < REGMAP_SIZE) {
-        *out = regmap_local[memory_map_ptr];
+    if (memory_map_index < REGMAP_SIZE) {
+        *out = regmap_local[memory_map_index];
     } else {
         *out = UNKNOWN_REG;
     }
 
-    memory_map_ptr++;
-    if (memory_map_ptr >= REGMAP_SIZE) {
-        memory_map_ptr = 0;
+    memory_map_index++;
+    if (memory_map_index >= REGMAP_SIZE) {
+        memory_map_index = 0;
     }
 }
 
 void receive_byte(const unsigned char in) {
     switch(state) {
     case start:
-        memory_map_ptr = in;
-        if (memory_map_ptr == COMMAND_REG) {
+        memory_map_index = in;
+        if (memory_map_index == COMMAND_REG) {
             state = command_byte;
         } else {
             state = register_set;
         }
         break;
     case register_set:
-        if (memory_map_ptr < READONLY) {
-            regmap_local[memory_map_ptr] = in;
-            memory_map_ptr++;
+        if (memory_map_index < READONLY) {
+            regmap_local[memory_map_index] = in;
+            memory_map_index++;
         }
         break;
     case command_byte:

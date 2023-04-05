@@ -8,6 +8,8 @@
 #ifndef I2C_H_
 #define I2C_H_
 
+#include <stdint.h>
+
 #define SLAVE_ADDR  0x44
 
 #define SDA_PIN BIT6 // Pin 4.6
@@ -72,8 +74,8 @@ enum i2c_states {
  */
 void i2c_slave_init(
         unsigned char slave_addr,
-        unsigned char* memory_start,
-        void (*command_handler)(unsigned const char)
+        uint8_t* memory_start,
+        void (*command_handler)(const uint8_t)
         );
 
 /**
