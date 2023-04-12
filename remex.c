@@ -35,6 +35,7 @@ void init(void)
     init_adc((uint8_t*)&regmap);
     init_pwm_A();
     init_pwm_B();
+    init_encoders((uint8_t*)&regmap);
     i2c_slave_init(SLAVE_ADDR, (uint8_t*)&regmap);
 
     __bis_SR_register(GIE); // Enable global interrupts
@@ -72,20 +73,6 @@ void start_motors() {
 
     int pwm_speed_b = BYTES_TO_SHORT(regmap, DES_SPEED_B);
     set_pwm_B(pwm_speed_b);
-}
-
-// This function is called in an interrupt. Do not stall.
-void process_i2c_command(const uint8_t command)
-{
-    // goto/begin command
-    switch(command) {
-    case 0xa5:
-        P6OUT |= BIT6;
-        break;
-    case 0x2E:
-        P6OUT &=~ BIT6;
-        break;
-    }
 }
 
 void clear_registers(void)
