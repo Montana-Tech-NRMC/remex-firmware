@@ -17,12 +17,13 @@
 #define CHANNEL_C ADCINCH_11
 
 #include <msp430.h>
+#include <stdint.h>
 
 /**
  *  setup_ADC will start the adc module reading from 4 consecutive channels. An interrupt will be triggered if a channel's voltage exceeds high_threshold 
  *
  *  @param[in] high_threshold is the upper voltage limit where an interrupt will be triggered.
  */
-void init_adc(int high_threshold, void (*on_threshold_broken)(int, int));
+void init_adc(uint8_t* memory_map);
 
 #endif /* ADC_H_ */

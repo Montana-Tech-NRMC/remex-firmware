@@ -70,12 +70,18 @@ void receive_byte(const unsigned char in) {
     }
 }
 
-void start_condition_found() {
-    state = start;
+unsigned int get_int_from_memory(const uint8_t index) {
+    if (index + 1 < REGMAP_SIZE) {
+        return (unsigned int) (regmap_local[(unsigned int) index+1] << 8) | regmap_local[index];
+    }
+    return 0;
 }
 
-void stop_condition_found() {
-    state = stop;
+void load_int_to_memory(const uint8_t index, const int value) {
+    if (index + 1 > REGMAP_SIZE) { return; }
+
+    regmap_local[(unsigned int) index+1] = (uint8_t)(value >> 8);
+    regmap_local[index] = (uint8_t)(value & 0xff);
 }
 
 #pragma vector = USCI_B1_VECTOR
@@ -85,11 +91,11 @@ __interrupt void USCIB1_ISR(void)
     switch(__even_in_range(UCB1IV, USCI_I2C_UCBIT9IFG))
     {
     case USCI_I2C_UCSTTIFG: // Start condition
-        start_condition_found();
+        state = start;
         break;
     case USCI_I2C_UCSTPIFG: // Stop Condition
         UCB1IFG &=~ UCSTPIFG;
-        stop_condition_found();
+        state = stop;
         break;
     case USCI_I2C_UCRXIFG0: // Receive Condition
          // must read rxbuf to clear interrupt

@@ -7,8 +7,8 @@
 #include <msp430.h>
 #ifndef PWM_H_
 #define PWM_H_
-#define PWMPINA BIT6 //pin 1.6 pwm
-#define PWMPINB BIT7 //pin 1.7 pwm
+#define PWMPINA BIT0 //pin 6.0 pwm
+#define PWMPINB BIT1 //pin 6.1 pwm
 #define MAX 4000
 #define MIN 2000
 

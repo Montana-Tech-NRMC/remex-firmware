@@ -10,22 +10,6 @@
 
 #include <stdint.h>
 
-#define BYTES_TO_SHORT(array, index) \
-    (((index) + 1 < sizeof(array)) && ((index) >= 0) ? \
-    ((unsigned short int)((array)[(index)] << 8) | (array)[(index) + 1]) : \
-    0)
-
-#define SHORT_TO_BYTES(array, index, value) \
-    do { \
-        if ((index) + sizeof(value) > sizeof(array)) { \
-            __no_operation(); \
-        } else { \
-            unsigned int tmp = (unsigned int)(value); \
-            (array)[index] = (unsigned char)(tmp >> 8); \
-            (array)[index + 1] = (unsigned char)(tmp & 0xff); \
-        } \
-    } while (0)
-
 enum remex_states {
     goTo,
     halt,

@@ -15,12 +15,13 @@
  */
 
 #include <adc.h>
+#include <i2c.h>
 
-int channel = 0;
-void (*high_threshold_cb)(int, int);
+int channel = 3;
+uint8_t* local_memory_map;
 
-void init_adc(int high_threshold, void (*on_threshold_broken)(int, int)) {
-    high_threshold_cb = on_threshold_broken;
+void init_adc(uint8_t* memory_map) {
+    local_memory_map = memory_map;
 
     // Configure ADC A1 and A0 pin
     P1SEL0 |= BIT0 + BIT1 + BIT2 + BIT3; // P1.0 & 1.1 & 1.2 & 1.3
@@ -31,8 +32,7 @@ void init_adc(int high_threshold, void (*on_threshold_broken)(int, int)) {
     ADCCTL2 &= ~ADCRES;
     ADCCTL2 |= ADCRES_2;                                    // 12-bit conversion resolution
     ADCMCTL0 |= ADCINCH_3;                                  // A0~3(EoS); Use internal 1.5v Ref
-    ADCHI = high_threshold;                                 // Set the high threshold for interrupt
-    ADCIE |= ADCIE0 | ADCHIIE;                              // Enable conversion complete interrupt
+    ADCIE |= ADCIE0;                                        // Enable conversion complete interrupt
 
     ADCCTL0 |= ADCENC;                                      // ADC enable encoding
 
@@ -63,22 +63,38 @@ void __attribute__ ((interrupt(ADC_VECTOR))) ADC_ISR (void)
         case ADCIV_ADCTOVIFG:
             break;
         case ADCIV_ADCHIIFG:
-            adcval = ADCMEM0;
-            high_threshold_cb(channel, adcval);
-            ADCIFG = 0;
             break;
         case ADCIV_ADCLOIFG:
             break;
         case ADCIV_ADCINIFG:
             break;
         case ADCIV_ADCIFG:
+            adcval = ADCMEM0;
+
+            switch(channel) {
+                case 0:
+                    SHORT_TO_BYTES(local_memory_map, REGMAP_SIZE, ADC_A, adcval);
+                    break;
+                case 1:
+                    SHORT_TO_BYTES(local_memory_map, REGMAP_SIZE, ADC_B, adcval);
+                    break;
+                case 2:
+                    SHORT_TO_BYTES(local_memory_map, REGMAP_SIZE, ADC_C, adcval);
+                    break;
+                case 3:
+                    SHORT_TO_BYTES(local_memory_map, REGMAP_SIZE, ADC_D, adcval);
+                    break;
+                default:
+                    break;
+            }
+
+            if (--channel < 0) {
+                channel = 3;
+            }
+
             ADCIFG = 0;
             break;                                           // Clear CPUOFF bit from 0(SR)
         default:
             break;
-    }
-    channel++;
-    if (channel > 3) {
-        channel = 0;
     }
 }

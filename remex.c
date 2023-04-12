@@ -52,7 +52,7 @@ void init(void)
     P6OUT &=~ BIT6; // turn off the light
 
     clear_registers();
-    init_adc(3000, adc_threshold_broken);
+    init_adc((uint8_t*)&regmap);
     i2c_slave_init(SLAVE_ADDR, (uint8_t*)&regmap, process_i2c_command);
 
     __bis_SR_register(GIE); // Enable global interrupts

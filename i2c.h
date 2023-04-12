@@ -45,19 +45,33 @@
 #define POSITION_A_H       0x21
 #define POSITION_B_L       0x22
 #define POSITION_B_H       0x23
-#define ADC_A_L            0x24
-#define ADC_A_H            0x25
-#define ADC_B_L            0x26
-#define ADC_B_H            0x27
-#define ADC_C_L            0x28
-#define ADC_C_H            0x29
-#define SWITCH_STATES      0x2A
+#define ADC_A              0x24
+#define ADC_B              0x26
+#define ADC_C              0x28
+#define ADC_D              0x2A
+#define SWITCH_STATES      0x2C
 #define REMEX_STATE        0x2F
 
 #define REGMAP_SIZE 0x2F
 #define UNKNOWN_REG 0xFF
 #define UNKNOWN_PAR 0xFF
 /****************************************************/
+
+#define BYTES_TO_SHORT(array, index) \
+    (((index) + 1 < sizeof(array)) && ((index) >= 0) ? \
+    ((unsigned short int)((array)[(index+1)] << 8) | (array)[(index)]) : \
+    0)
+
+#define SHORT_TO_BYTES(array, size, index, value) \
+    do { \
+        if ((index) + sizeof(value) > (size)) { \
+            __no_operation(); \
+        } else { \
+            unsigned int tmp = (unsigned int)(value); \
+            (array)[index + 1] = (unsigned char)(tmp >> 8); \
+            (array)[index] = (unsigned char)(tmp & 0xff); \
+        } \
+    } while (0)
 
 /// state machine states
 enum i2c_states {
@@ -90,8 +104,8 @@ void transmit_byte(unsigned volatile int *out);
  */
 void receive_byte(const unsigned char in);
 
-void start_condition_found();
+unsigned int get_int_from_memory(const uint8_t index);
 
-void stop_condition_found();
+void load_int_to_memory(const uint8_t index, const int value);
 
 #endif /* I2C_H_ */
