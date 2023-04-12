@@ -10,6 +10,7 @@
 #include "adc.h"
 #include "uart.h"
 #include "hardwareIO.h"
+#include "globals.h"
 
 /**
  * remex.c
@@ -19,27 +20,6 @@
 uint8_t regmap[REGMAP_SIZE] = { 0x00 };
 
 enum remex_states remex;
-
-void adc_threshold_broken(int channel, int value) {
-    switch(channel) {
-        case 0:
-            P2OUT |= BIT0;
-            P2OUT &=~ (BIT1 | BIT2);
-            break;
-        case 1:
-            P2OUT |= BIT1;
-            P2OUT &=~ (BIT0 | BIT2);
-            break;
-        case 2:
-            P2OUT |= BIT0 | BIT1;
-            P2OUT &=~ BIT2;
-            break;
-        case 3:
-            P2OUT |= BIT2;
-            P2OUT &=~ (BIT1 | BIT0);
-            break;
-    }
-}
 
 // init is called once at the beginning of operation.
 void init(void)
@@ -53,7 +33,9 @@ void init(void)
 
     clear_registers();
     init_adc((uint8_t*)&regmap);
-    i2c_slave_init(SLAVE_ADDR, (uint8_t*)&regmap, process_i2c_command);
+    init_pwm_A();
+    init_pwm_B();
+    i2c_slave_init(SLAVE_ADDR, (uint8_t*)&regmap);
 
     __bis_SR_register(GIE); // Enable global interrupts
 
@@ -68,7 +50,28 @@ void init(void)
 // code within loop repeats continually.
 void loop(void)
 {
-    WDTCTL = WDT_ADLY_16;
+    __bis_SR_register(LPM0_bits);
+    __no_operation();
+
+    switch(i2c_command) {
+    case TURN_ON_LIGHT:
+        P6OUT |= BIT6;
+        break;
+    case TURN_OFF_LIGHT:
+        P6OUT &=~ BIT6;
+        break;
+    case START_PWM:
+        start_motors();
+        break;
+    }
+}
+
+void start_motors() {
+    int pwm_speed_a = BYTES_TO_SHORT(regmap, DES_SPEED_A);
+    set_pwm_A(pwm_speed_a);
+
+    int pwm_speed_b = BYTES_TO_SHORT(regmap, DES_SPEED_B);
+    set_pwm_B(pwm_speed_b);
 }
 
 // This function is called in an interrupt. Do not stall.

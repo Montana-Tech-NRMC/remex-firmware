@@ -12,7 +12,7 @@
 
 int main(void)
 {
-	WDTCTL = WDT_ADLY_16;	// stop watchdog timer
+	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
 
 	// Change DCO main frequency to 16 MHz from 1 MHz
 	__bis_SR_register(SCG0); // disable FLL

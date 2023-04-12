@@ -7,21 +7,20 @@
 
 #include <msp430.h>
 #include "i2c.h"
+#include "globals.h"
 
 uint8_t* regmap_local;
 uint8_t memory_map_index = 0;
 enum i2c_states state;
 
-void (*command_callback)(const uint8_t) = 0L;
+volatile uint8_t exit_lpm = 0;
 
 void i2c_slave_init(
         unsigned char slave_addr,
-        uint8_t* memory_start,
-        void (*command_handler)(const uint8_t)
-     )
+        uint8_t* memory_start
+    )
 {
     regmap_local = memory_start;
-    command_callback = command_handler;
 
     P4SEL0 |= SDA_PIN + SCL_PIN;             // Set i2c on pins 4.6 and 4.7 for USCIB0
     UCB1CTLW0 |= UCSWRST;                    // Enable software reset
@@ -61,9 +60,8 @@ void receive_byte(const unsigned char in) {
         }
         break;
     case command_byte:
-        if (command_callback != 0L) {
-            command_callback(in);
-        }
+        i2c_command = in;
+        exit_lpm = 1;
         break;
     default:
         __no_operation();
@@ -101,6 +99,10 @@ __interrupt void USCIB1_ISR(void)
          // must read rxbuf to clear interrupt
         readval = UCB1RXBUF;
         receive_byte(readval);
+        if(exit_lpm) {
+            __bic_SR_register_on_exit(LPM0_bits);
+            exit_lpm = 0;
+        }
         break;
     case USCI_I2C_UCTXIFG0: // Transmit Condition
         transmit_byte(&UCB1TXBUF);

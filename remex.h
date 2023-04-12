@@ -59,6 +59,8 @@ void loop(void);
  */
 void clear_registers(void);
 
+void start_motors();
+
 /**
  * direction will calculate which direction the desired position is relative to the current position
  * will return 1, 0, -1.

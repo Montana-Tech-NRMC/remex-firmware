@@ -19,32 +19,25 @@
 
 /// Read / Write Registers
 #define COMMAND_REG        0xCC
-#define MODE_REG           0x00
-#define MAX_CURRENT_L      0x01
-#define MAX_CURRENT_H      0x02
-#define CURRENT_DURATION_L 0x03
-#define CURRENT_DURATION_H 0x04
-#define DES_SPEED_A_L      0x05
-#define DES_SPEED_A_H      0x06
-#define DES_SPEED_B_L      0x07
-#define DES_SPEED_B_H      0x08
-#define DES_POS_A_L        0x09
-#define DES_POS_A_H        0x0A
-#define DES_POS_B_L        0x0B
-#define DES_POS_B_H        0x0C
-#define PID_GAIN_MULT      0x0D
-#define PID_GAIN_DIV       0x0E
-#define PID_INT_MULT       0x0F
-#define PID_INT_DIV        0x10
-#define PID_DIF_MULT       0x11
-#define PID_DIF_DIV        0x12
+#define MAX_CURRENT        0x00
+#define CURRENT_DURATION   0x02
+#define DES_SPEED_A        0x04
+#define DES_SPEED_B        0x06
+#define DES_POSITION_A     0x08
+#define DES_POSITION_B     0x0A
+#define PID_GAIN_MULT      0x0C
+#define PID_GAIN_DIV       0x0D
+#define PID_INT_MULT       0x0E
+#define PID_INT_DIV        0x0F
+#define PID_DIF_MULT       0x10
+#define PID_DIF_DIV        0x11
+
+#define MODE_REG           0x15
 
 #define READONLY           0x20
 /// Read only Registers
-#define POSITION_A_L       0x20
-#define POSITION_A_H       0x21
-#define POSITION_B_L       0x22
-#define POSITION_B_H       0x23
+#define POSITION_A         0x20
+#define POSITION_B         0x22
 #define ADC_A              0x24
 #define ADC_B              0x26
 #define ADC_C              0x28
@@ -52,9 +45,21 @@
 #define SWITCH_STATES      0x2C
 #define REMEX_STATE        0x2F
 
-#define REGMAP_SIZE 0x2F
-#define UNKNOWN_REG 0xFF
-#define UNKNOWN_PAR 0xFF
+#define REGMAP_SIZE        0x2F
+#define UNKNOWN_REG        0xFF
+#define UNKNOWN_PAR        0xFF
+
+/********** I2C Commands ****************************/
+
+#define START_PWM          0x01
+#define STOP_PWM           0x02
+#define ZERO_MOTOR         0x04
+#define SAVE_STATE         0x08
+
+//For testing i2c map
+#define TURN_ON_LIGHT      0xa5
+#define TURN_OFF_LIGHT     0x2e
+
 /****************************************************/
 
 #define BYTES_TO_SHORT(array, index) \
@@ -88,9 +93,7 @@ enum i2c_states {
  */
 void i2c_slave_init(
         unsigned char slave_addr,
-        uint8_t* memory_start,
-        void (*command_handler)(const uint8_t)
-        );
+        uint8_t* memory_start);
 
 /**
  * transmit_byte take the value pointed to by the memory_map_ptr and load it into the
