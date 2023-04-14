@@ -59,7 +59,9 @@ void loop(void);
  */
 void clear_registers(void);
 
-void start_motors();
+void start_motors(void);
+
+void FRAM_write(void);
 
 /**
  * direction will calculate which direction the desired position is relative to the current position

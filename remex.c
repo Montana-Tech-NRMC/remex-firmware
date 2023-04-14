@@ -16,6 +16,10 @@
  * remex.c
  */
 
+#define FRAM_REGMAP_START 0x8500
+
+unsigned long *FRAM_write_ptr;
+
 // Must have definition. regmap is set in the init method
 uint8_t regmap[REGMAP_SIZE] = { 0x00 };
 
@@ -63,10 +67,13 @@ void loop(void)
     case START_PWM:
         start_motors();
         break;
+    case SAVE_STATE:
+        FRAM_write();
+        break;
     }
 }
 
-void start_motors() {
+void start_motors(void) {
     int pwm_speed_a = BYTES_TO_SHORT(regmap, DES_SPEED_A);
     set_pwm_A(pwm_speed_a);
 
@@ -88,11 +95,28 @@ void process_i2c_command(const uint8_t command)
     }
 }
 
+void FRAM_write(void) {
+    FRAM_write_ptr = (unsigned long *) FRAM_REGMAP_START;
+    unsigned int i = 0;
+    SYSCFG0 = FRWPPW | PFWP;
+
+    for(i = 0; i < REGMAP_SIZE; i++) {
+        *FRAM_write_ptr++ = regmap[i];
+    }
+
+    SYSCFG0 = FRWPPW | DFWP | PFWP;
+}
+
 void clear_registers(void)
 {
-    unsigned int i;
-    for (i = REGMAP_SIZE - 1; i > 0; i--) {
-        regmap[i] = 0x00;
+    FRAM_write_ptr = (unsigned long *) FRAM_REGMAP_START;
+    unsigned int i = 0;
+    SYSCFG0 = FRWPPW | PFWP;
+
+    for(i = 0; i < REGMAP_SIZE; i++) {
+        regmap[i] =  *FRAM_write_ptr++;
     }
+
+    SYSCFG0 = FRWPPW | DFWP | PFWP;
 }
 
