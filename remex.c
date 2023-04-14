@@ -82,20 +82,6 @@ void start_motors(void) {
     set_pwm_B(pwm_speed_b);
 }
 
-// This function is called in an interrupt. Do not stall.
-void process_i2c_command(const uint8_t command)
-{
-    // goto/begin command
-    switch(command) {
-    case 0xa5:
-        P6OUT |= BIT6;
-        break;
-    case 0x2E:
-        P6OUT &=~ BIT6;
-        break;
-    }
-}
-
 void FRAM_write(void) {
     FRAM_write_ptr = (unsigned long *) FRAM_REGMAP_START;
     unsigned int i = 0;

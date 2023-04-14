@@ -38,13 +38,6 @@ void adc_channel_b(int current);
 void adc_channel_c(int current);
 
 /**
- * process_cmd is a function that is called when a command byte is received from the master.
- *
- * @param[in] cmd is the byte received from the master.
- */
-void process_i2c_command(const uint8_t cmd);
-
-/**
  * init is called once, and initializes the registers and libraries for the board.
  */
 void init(void);
