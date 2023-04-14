@@ -38,13 +38,6 @@ void adc_channel_b(int current);
 void adc_channel_c(int current);
 
 /**
- * process_cmd is a function that is called when a command byte is received from the master.
- *
- * @param[in] cmd is the byte received from the master.
- */
-void process_i2c_command(const uint8_t cmd);
-
-/**
  * init is called once, and initializes the registers and libraries for the board.
  */
 void init(void);
@@ -57,9 +50,11 @@ void loop(void);
 /**
  * clear_registers is a helper function that sets all the registers in the register map to zero.
  */
-void clear_registers(void);
+void initialize_register_map(void);
 
-void start_motors();
+void start_motors(void);
+
+void FRAM_write(void);
 
 /**
  * direction will calculate which direction the desired position is relative to the current position

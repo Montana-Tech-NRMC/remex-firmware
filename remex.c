@@ -16,14 +16,17 @@
  * remex.c
  */
 
+#define FRAM_REGMAP_START 0x8500
+
+unsigned long *FRAM_write_ptr;
+
 // Must have definition. regmap is set in the init method
 uint8_t regmap[REGMAP_SIZE] = { 0x00 };
 
 enum remex_states remex;
 
 // init is called once at the beginning of operation.
-void init(void)
-{
+void init(void) {
 
     P2DIR |= BIT0 | BIT1 | BIT2;
     P2OUT &=~ (BIT0 | BIT1 | BIT2);
@@ -31,7 +34,7 @@ void init(void)
     P6DIR |= BIT6; // dev board Test LED light
     P6OUT &=~ BIT6; // turn off the light
 
-    clear_registers();
+    initialize_register_map();
     init_adc((uint8_t*)&regmap);
     init_pwm_A();
     init_pwm_B();
@@ -49,8 +52,7 @@ void init(void)
 }
 
 // code within loop repeats continually.
-void loop(void)
-{
+void loop(void) {
     __bis_SR_register(LPM0_bits);
     __no_operation();
 
@@ -64,10 +66,13 @@ void loop(void)
     case START_PWM:
         start_motors();
         break;
+    case SAVE_STATE:
+        FRAM_write();
+        break;
     }
 }
 
-void start_motors() {
+void start_motors(void) {
     int pwm_speed_a = BYTES_TO_SHORT(regmap, DES_SPEED_A);
     set_pwm_A(pwm_speed_a);
 
@@ -75,11 +80,27 @@ void start_motors() {
     set_pwm_B(pwm_speed_b);
 }
 
-void clear_registers(void)
-{
-    unsigned int i;
-    for (i = REGMAP_SIZE - 1; i > 0; i--) {
-        regmap[i] = 0x00;
+void FRAM_write(void) {
+    FRAM_write_ptr = (unsigned long *) FRAM_REGMAP_START;
+    unsigned int i = 0;
+    SYSCFG0 = FRWPPW | PFWP;
+
+    for(i = 0; i < REGMAP_SIZE; i++) {
+        *FRAM_write_ptr++ = regmap[i];
     }
+
+    SYSCFG0 = FRWPPW | DFWP | PFWP;
+}
+
+void initialize_register_map(void) {
+    FRAM_write_ptr = (unsigned long *) FRAM_REGMAP_START;
+    unsigned int i = 0;
+    SYSCFG0 = FRWPPW | PFWP;
+
+    for(i = 0; i < REGMAP_SIZE; i++) {
+        regmap[i] =  *FRAM_write_ptr++;
+    }
+
+    SYSCFG0 = FRWPPW | DFWP | PFWP;
 }
 
