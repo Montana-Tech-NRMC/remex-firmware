@@ -26,8 +26,7 @@ uint8_t regmap[REGMAP_SIZE] = { 0x00 };
 enum remex_states remex;
 
 // init is called once at the beginning of operation.
-void init(void)
-{
+void init(void) {
 
     P2DIR |= BIT0 | BIT1 | BIT2;
     P2OUT &=~ (BIT0 | BIT1 | BIT2);
@@ -53,8 +52,7 @@ void init(void)
 }
 
 // code within loop repeats continually.
-void loop(void)
-{
+void loop(void) {
     __bis_SR_register(LPM0_bits);
     __no_operation();
 
@@ -94,8 +92,7 @@ void FRAM_write(void) {
     SYSCFG0 = FRWPPW | DFWP | PFWP;
 }
 
-void initialize_register_map(void)
-{
+void initialize_register_map(void) {
     FRAM_write_ptr = (unsigned long *) FRAM_REGMAP_START;
     unsigned int i = 0;
     SYSCFG0 = FRWPPW | PFWP;
