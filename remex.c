@@ -39,6 +39,7 @@ void init(void)
     init_adc((uint8_t*)&regmap);
     init_pwm_A();
     init_pwm_B();
+    init_encoders((uint8_t*)&regmap);
     i2c_slave_init(SLAVE_ADDR, (uint8_t*)&regmap);
 
     __bis_SR_register(GIE); // Enable global interrupts

@@ -1,6 +1,13 @@
 #ifndef HARDWAREIO_H_
 #define HARDWAREIO_H_
 
+#include <stdint.h>
+
+#define QEI_1_A BIT4
+#define QEI_1_B BIT5
+#define QEI_2_A BIT6
+#define QEI_2_B BIT7
+
 /**
  * init_encoders will initialize hardware to read QEI encoders.
  *
@@ -9,19 +16,6 @@
  * @param[in] count_b integer pointer that should be updated from hardware interrupts for secondary encoder
  * if pointer is 0 then do not initialize encoder.
  */
-void init_encoders(unsigned int* count_a, unsigned int* count_b);
-
-/**
- * init_switches will initialize hardware interrupts to read limit switches or buttons.
- *
- * @param[in] switch_a is the callback function that will be invoked when the limit switch connected to pin
- * 2.4 on the micro-controller is triggered.
- *
- * @param[in] switch_b is the callback function that will be invoked when the limit switch connected to pin
- * 2.5 on the micro-controller is triggered.
- *
- * if either parameter is null do not initialize hardware for the associated pin.
- */
-void init_switches(void(*switch_a)(int), void(*switch_b)(int));
+void init_encoders(uint8_t* memory_map);
 
 #endif /* HARDWARE_H_ */

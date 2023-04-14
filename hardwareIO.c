@@ -7,95 +7,43 @@
 
 #include <msp430.h>
 #include "hardwareIO.h"
+#include "i2c.h"
 
-unsigned int *__count_a = 0, *__count_b = 0;
-void (*switch_a_cb)(int) = 0L;
-void (*switch_b_cb)(int) = 0L;
+unsigned int count_left = 0, count_right = 0;
+uint8_t* local_memory_map;
 
-void init_switches(void (*switch_a)(int), void (*switch_b)(int))
+void init_encoders(uint8_t* memory_map)
 {
-    if (switch_a) {
-        P2DIR &=~(BIT4);  // Set PIN 2.4 as input
-        P2SEL0 &=~ BIT4;
-        P2SEL1 &=~ BIT4;
-        //P2OUT |= (BIT6);  // Set PIN 2.4 pull up resistor (active low)
-        //P2REN |= (BIT6);  // Enable PIN 2.4 pulling resistor
-        P2IES |= (BIT4);  // PIN 2.4 hi/low edge
-        P2IE  |= (BIT4);  // PIN 2.4 enable interrupt
+    local_memory_map = memory_map;
 
-        switch_a_cb = switch_a;
-        __count_b = 0;
-    }
-
-    if (switch_b) {
-        P2DIR &=~(BIT5);  // Set PIN 2.5 as input
-        //P2OUT |= (BIT5);  // Set PIN 2.5 pull up resistor (active low)
-        //P2REN |= (BIT5);  // Enable PIN 2.5 pulling resistor
-        P2IES |= (BIT5);  // PIN 2.5 hi/low edge
-        P2IE  |= (BIT5);  // PIN 2.5 enable interrupt
-
-        switch_b_cb = switch_b;
-        __count_b = 0;
-    }
+    P1DIR &=~(QEI_1_A | QEI_1_B | QEI_2_A | QEI_2_B);
+    P1IES |= (QEI_1_A | QEI_2_A); // Hi/low edge
+    P1IE  |= (QEI_1_A | QEI_2_A); // Enable Interrupt
+    P1IFG &=~(QEI_1_A | QEI_2_A);
 }
 
-void init_encoders(unsigned int* count_a, unsigned int* count_b)
+#pragma vector = PORT1_VECTOR
+__interrupt void Port_1(void)
 {
-    if (count_a) {
-        P2DIR &=~(BIT2 | BIT3); // Set PIN 2.2 and 2.3 as input direction
-        P2IES |= (BIT3); // 2.2 on Hi/low edge
-        P2IE  |= (BIT3); // Enable Interrupt on 2.2
+    if (QEI_1_A & P1IFG){
+        if(!(P1IN & QEI_1_B)) {
+            count_left--;
+        } else if (P1IN & QEI_1_B) {
+            count_left++;
+        }
+        P1IFG &=~ QEI_1_A;
 
-        __count_a = count_a; // store the pointer to the counter
+        SHORT_TO_BYTES(local_memory_map, REGMAP_SIZE, POSITION_A, count_left);
     }
 
-    if (count_b) {
-        P2DIR &=~(BIT5 | BIT6); // Set PIN 2.5 and 2.6 as input direction
-        P2SEL0 &=~ BIT6;
-        P2SEL1 &=~ BIT6;
-        P2IFG &=~ (BIT5);
-        P2IE  |= (BIT5); // Enable Interrupt on 2.5
-        P2IES |= (BIT5); // 2.5
-
-        __count_b = count_b; // store the pointer to the counter
-        switch_a_cb = 0L;
-        switch_b_cb = 0L;
-    }
-}
-
-#pragma vector = PORT2_VECTOR
-__interrupt void Port_2(void)
-{
-    if (BIT3 & P2IFG){
-        if (__count_a) {
-            if(!(P2IN & BIT2)) {
-                (*__count_a)--;
-            } else if (P2IN & BIT2) {
-                (*__count_a)++;
-            }
+    if (QEI_2_A & P1IFG) {
+        if((P1IN & QEI_2_B)) {
+            count_right++;
+        } else if (P1IN & QEI_2_B) {
+            count_right--;
         }
-        P2IFG &=~ BIT3;
-    }
+        P1IFG &=~ QEI_2_A;
 
-    if (BIT5 & P2IFG) {
-        if (__count_b) {
-            if((P2IN & BIT6)) {
-                (*__count_b)++;
-            } else if (P2IN & BIT6) {
-                (*__count_b)--;
-            }
-        }
-
-        if (switch_a_cb) {
-            switch_a_cb((P2IN & BIT5));
-        }
-        P2IFG &=~ BIT5;
-    }
-
-    if (BIT4 & P2IFG) {
-        if (switch_b_cb) {
-            switch_b_cb((P2IN & BIT4));
-        }
-        P2IFG &=~ BIT4;
+        SHORT_TO_BYTES(local_memory_map, REGMAP_SIZE, POSITION_B, count_right);
     }
 }
