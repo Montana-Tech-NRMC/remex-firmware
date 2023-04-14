@@ -35,7 +35,7 @@ void init(void)
     P6DIR |= BIT6; // dev board Test LED light
     P6OUT &=~ BIT6; // turn off the light
 
-    clear_registers();
+    initialize_register_map();
     init_adc((uint8_t*)&regmap);
     init_pwm_A();
     init_pwm_B();
@@ -108,7 +108,7 @@ void FRAM_write(void) {
     SYSCFG0 = FRWPPW | DFWP | PFWP;
 }
 
-void clear_registers(void)
+void initialize_register_map(void)
 {
     FRAM_write_ptr = (unsigned long *) FRAM_REGMAP_START;
     unsigned int i = 0;

@@ -57,7 +57,7 @@ void loop(void);
 /**
  * clear_registers is a helper function that sets all the registers in the register map to zero.
  */
-void clear_registers(void);
+void initialize_register_map(void);
 
 void start_motors(void);
 
