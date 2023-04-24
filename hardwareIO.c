@@ -17,9 +17,10 @@ void init_encoders(uint8_t* memory_map)
     local_memory_map = memory_map;
 
     P1DIR &=~(QEI_1_A | QEI_1_B | QEI_2_A | QEI_2_B);
-    P1IES |= (QEI_1_A | QEI_2_A); // Hi/low edge
+    //P1REN |= (QEI_1_A | QEI_1_B); // Enable Pull up resistors
+    P1IES &=~ (QEI_1_A | QEI_2_A); // Hi/low edge
     P1IE  |= (QEI_1_A | QEI_2_A); // Enable Interrupt
-    P1IFG &=~(QEI_1_A | QEI_2_A);
+    P1IFG = 0;
 }
 
 #pragma vector = PORT1_VECTOR
@@ -31,7 +32,7 @@ __interrupt void Port_1(void)
         } else if (P1IN & QEI_1_B) {
             count_left++;
         }
-        P1IFG &=~ QEI_1_A;
+        P1IFG = 0;
 
         SHORT_TO_BYTES(local_memory_map, REGMAP_SIZE, POSITION_A, count_left);
     }
